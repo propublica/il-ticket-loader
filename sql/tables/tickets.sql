@@ -1,0 +1,21 @@
+CREATE TABLE public.tickets (
+  ticket_number bigint primary key,
+  violation_code character varying,
+  violation_description character varying,
+  issue_date timestamp without time zone,
+  violation_location character varying,
+  unit character varying,
+  unit_description character varying,
+  vehicle_make character varying,
+  license_plate_number character varying,
+  license_plate_state character varying,
+  license_plate_type character varying,
+  zipcode character varying,
+  ticket_queue character varying,
+  notice_level character varying,
+  fine_level1_amount double precision,
+  current_amount_due double precision,
+  total_payments double precision,
+  hearing_disposition character varying,
+  notice_number bigint
+);
