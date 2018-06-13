@@ -3,6 +3,8 @@
 ## Requirements
 
 * GNU make
+* Python 3
+* PostgreSQL
 * ProPublica Illinois S3 bucket credentials
 
 ## Configuration
@@ -15,14 +17,28 @@ export ILTICKETS_DB_ROOT_URL=postgres://localhost
 export ILTICKETS_DB_NAME=iltickets
 ```
 
-(I know, they kind of violate DRY.)
+(I know, they kind of violate DRY. This whole thing kind of violates DRY.)
+
+A default configuration can be imported by running:
+
+```
+source env/dev.sh
+```
 
 ## Running
 
 ### One shot
 
+Slow version:
+
 ```
 make all
+```
+
+Faster version (for machines with multiple cores):
+
+```
+make bootstrap_db && make -j 8 load
 ```
 
 ### Reset the database
@@ -33,19 +49,32 @@ make drop_db
 
 ### Download
 
+**This is currently broken.**
+
 ```
-make download_parking
+make download
 ```
 
 ### Load into DB
 
 ```
+make load
+```
+
+Or:
+
+```
 make load_parking
+make load_cameras
 ```
 
 ### Remove files
 
 *Not implemented. You must do this manually.*
+
+## Error handling
+
+Bad CSV rows are written to `data/processed/<FILENAME>_err.csv`. These should only ever be the final "total" line from each file.
 
 ## Duplicate handling
 
