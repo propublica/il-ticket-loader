@@ -1,10 +1,14 @@
 YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 
-.PHONY: all bootstrap_db download_parking load_parking download_cameras load_parking
+.PHONY: all bootstrap_db download_parking load_parking download_cameras load_parking load download
 
 all: bootstrap_db load_parking load_cameras
 
 bootstrap_db : create_db create_table_parking create_table_cameras create_schema
+
+load: load_cameras load_parking
+
+download: download_cameras download_parking
 
 download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(YEARS))
 load_parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
@@ -61,15 +65,6 @@ dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	$(check_tmp_parking_relation) psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.tickets WITH NO DATA;"
 	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_parking_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
 	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.tickets SELECT * FROM tmp.tmp_table_parking_$* ON CONFLICT DO NOTHING;"
-	psql $(ILTICKETS_DB_URL) -c	"\copy (select ticket_number, count(ticket_number) as count from tmp.tmp_table_parking_$* group by ticket_number having count(ticket_number) > 1) TO '$(PWD)/dupes/parking-$*.csv' with delimiter ',' csv header;"
-	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_parking_$*;"
-	touch $<
-
-
-dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
-	$(check_tmp_parking_relation) psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.parking WITH NO DATA;"
-	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_parking_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
-	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.parking SELECT * FROM tmp.tmp_table_parking_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"\copy (select ticket_number, count(ticket_number) as count from tmp.tmp_table_parking_$* group by ticket_number having count(ticket_number) > 1) TO '$(PWD)/dupes/parking-$*.csv' with delimiter ',' csv header;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_parking_$*;"
 	touch $<
