@@ -1,8 +1,10 @@
 YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 
-.PHONY: all bootstrap_db download_parking load_parking download_cameras load_parking load download
+.PHONY: all bootstrap_db download_parking load_parking download_cameras load_parking load download clean clean_files
 
 all: bootstrap_db load_parking load_cameras
+
+clean: drop_db clean
 
 bootstrap_db : create_db create_table_parking create_table_cameras create_schema
 
@@ -78,5 +80,9 @@ dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_cameras_$*;"
 	touch $<
 
-data/parking/A505951_PARK_Year_%.txt :
-	aws s3 sync s3://data.il.propublica.org/il-tickets/parking/$(@F) data/parking/$(@F)
+
+clean_files :
+	rm -Rf data/cameras/*
+	rm -Rf data/parking/*
+	rm -Rf data/processed/*
+	rm -Rf dupes/*
