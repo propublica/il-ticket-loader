@@ -55,8 +55,8 @@ drop_db : create_db
 	psql $(ILTICKETS_DB_ROOT_URL) -c "drop database $(ILTICKETS_DB_NAME);" && rm -f dupes/*
 
 
-data/parking/A505951_PARK_Year_%.txt :
-	aws s3 sync s3://data.il.propublica.org/il-tickets/parking/$(@F) data/parking/$(@F)
+data/parking/A50951_PARK_Year_%.txt :
+	aws s3 cp s3://data.il.propublica.org/il-tickets/parking/$(@F) $@
 
 
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt
