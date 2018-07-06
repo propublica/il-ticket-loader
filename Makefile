@@ -59,6 +59,10 @@ data/parking/A50951_PARK_Year_%.txt :
 	aws s3 cp s3://data.il.propublica.org/il-tickets/parking/$(@F) $@
 
 
+data/cameras/A50951_AUCM_Year_%.txt :
+	aws s3 cp s3://data.il.propublica.org/il-tickets/cameras/$(@F) $@
+
+
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt
 	python processors/clean_csv.py $< > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.csv
 
