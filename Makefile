@@ -4,7 +4,7 @@ YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 
 all: bootstrap_db load_parking load_cameras
 
-clean: drop_db clean
+clean: drop_db clean_files
 
 bootstrap_db : create_db create_table_parking create_table_cameras create_schema
 
