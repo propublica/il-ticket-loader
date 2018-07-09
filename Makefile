@@ -64,11 +64,11 @@ data/cameras/A50951_AUCM_Year_%.txt :
 
 
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt
-	python processors/clean_csv.py $< > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.csv
+	python processors/clean_csv.py $< > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
 
 data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt
-	python processors/clean_csv.py $< > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.csv
+	python processors/clean_csv.py $< > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
 
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
