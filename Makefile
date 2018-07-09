@@ -72,9 +72,9 @@ data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.tx
 
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
-	$(check_tmp_parking_relation) psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.tickets WITH NO DATA;"
+	$(check_tmp_parking_relation) psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.parking WITH NO DATA;"
 	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_parking_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
-	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.tickets SELECT * FROM tmp.tmp_table_parking_$* ON CONFLICT DO NOTHING;"
+	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.parking SELECT * FROM tmp.tmp_table_parking_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"\copy (select ticket_number, count(ticket_number) as count from tmp.tmp_table_parking_$* group by ticket_number having count(ticket_number) > 1) TO '$(PWD)/dupes/parking-$*.csv' with delimiter ',' csv header;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_parking_$*;"
 	touch $<
