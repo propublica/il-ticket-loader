@@ -6,7 +6,7 @@ all: bootstrap_db load_parking load_cameras
 
 clean: drop_db clean_files
 
-bootstrap_db : create_db create_table_parking create_table_cameras create_schema
+bootstrap_db : create_db create_table_parking create_table_cameras create_table_geocodes create_schema
 
 load: load_cameras load_parking
 
