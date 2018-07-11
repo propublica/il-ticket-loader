@@ -14,7 +14,7 @@ def clean_commas(row):
 def clean_location(row):
     address = "{2}, Chicago, IL".format(*row)
     address = clean_address(address)
-    row.append(address)
+    row.append(address.strip())
     return row
 
 
