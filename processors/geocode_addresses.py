@@ -8,46 +8,30 @@ db = records.Database('postgres://localhost/iltickets')
 def process(limit, offset):
     rows = db.query("""
         select
-            p.address as address
+            address
         from
-            parking p
-        left join
-            geocodes g on
-                p.address = g.address
+            geocodes
         where
-            g.address is null
-        group by p.address
-        order by p.address
-        limit :limit
-        offset :offset
-    """, offset=offset, limit=limit)
+            geocode_geojson is null and
+            id >= :min and
+            id < :max
+    """, min=offset, max=offset+limit)
 
     for row in rows:
         geocode = geocoder.google(row['address'])
         geojson = geocode.geojson
         try:
             db.query("""
-                insert into
-                    geocodes (
-                        address,
-                        geocoded_address,
-                        geocoded_lng,
-                        geocoded_lat,
-                        geocoded_city,
-                        geocoded_state,
-                        geocode_accuracy,
-                        geocode_geojson
-                    ) values (
-                        :address,
-                        :geocoded_address,
-                        :geocoded_lng,
-                        :geocoded_lat,
-                        :geocoded_city,
-                        :geocoded_state,
-                        :geocode_accuracy,
-                        :geocode_geojson
-                    )
-                on conflict do nothing
+                update geocodes set
+                    geocoded_address=:geocoded_address,
+                    geocoded_lng=:geocoded_lng,
+                    geocoded_lat=:geocoded_lat,
+                    geocoded_city=:geocoded_city,
+                    geocoded_state=:geocoded_state,
+                    geocode_accuracy=:geocode_accuracy,
+                    geocode_geojson=:geocode_geojson
+                where
+                    address=:address
             """,
                 geocode_geojson=json.dumps(geocode.geojson),
                 geocoded_address=geojson['features'][0]['properties']['address'],
