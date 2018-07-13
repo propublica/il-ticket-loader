@@ -35,10 +35,10 @@ Slow version:
 make all
 ```
 
-Faster version (for machines with multiple cores):
+Faster, slightly embarassing version (for machines with multiple cores):
 
 ```
-make bootstrap_db && make -j 8 load
+make bootstrap tables load_geocodes load_geodata_community_area_stats load_community_areas && make -j 8 parking && make indexes views analysis
 ```
 
 ### Reset the database
