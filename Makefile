@@ -1,22 +1,26 @@
-YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+#YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+YEARS = 2011 2012 2013 2014 2015
+TABLES = parking cameras geocodes community_area_stats
+VIEWS = community_area_city_stickers geocode_accuracy
+DATADIRS = analysis cameras geodata parking processed
 
-.PHONY: all bootstrap_db download_parking load_parking download_cameras load_parking load download clean clean_files
+.PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
 
-all: bootstrap_db load_parking load_cameras
+all: bootstrap parking
+clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
 
-clean: drop_db clean_files
+bootstrap : create_db tables schema
+tables = $(patsubst %, table_%, $(TABLES))
+indexes = $(patsubst %, index_%, $(TABLES))
+views = $(patsubst %, view_%, $(VIEWS))
+analysis = $(patsubst %, data/analysis/%.csv, $(VIEWS))
 
-bootstrap_db : create_db create_table_parking create_table_cameras create_schema
-
-load: load_cameras load_parking
-
-download: download_cameras download_parking
+parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
+cameras : $(patsubst %, dupes/cameras-%.csv, $(YEARS))
+load: cameras parking
 
 download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(YEARS))
-load_parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
-
 download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(YEARS))
-load_cameras : $(patsubst %, dupes/cameras-%.csv, $(YEARS))
 
 
 define check_database
@@ -41,18 +45,59 @@ endef
 
 create_db :
 	$(check_database) psql $(ILTICKETS_DB_ROOT_URL) -c "create database $(ILTICKETS_DB_NAME)"
+	psql $(ILTICKETS_DB_URL) -c "CREATE EXTENSION postgis;"
 
 
-create_table_% : sql/tables/%.sql
-	$(check_public_relation) psql  $(ILTICKETS_DB_URL) -f $<
+table_% : sql/tables/%.sql
+	$(check_public_relation) psql $(ILTICKETS_DB_URL) -f $<
 
 
-create_schema :
+view_% : sql/views/%.sql
+	$(check_public_relation) psql $(ILTICKETS_DB_URL) -f $<
+
+
+index_% :
+	$(check_public_relation) psql $(ILTICKETS_DB_URL) -c "create index on $* (address);"
+
+
+schema :
 	psql $(ILTICKETS_DB_URL) -c "CREATE SCHEMA tmp;"
 
 
 drop_db : create_db
 	psql $(ILTICKETS_DB_ROOT_URL) -c "drop database $(ILTICKETS_DB_NAME);" && rm -f dupes/*
+
+
+load_geocodes : load_parking
+	psql $(ILTICKETS_DB_URL) -c "insert into geocodes (address) select address from parking group by address on conflict do nothing;"
+
+
+data/geodata/community-areas.json :
+	curl "https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON" > $@
+
+
+data/geodata/community_area_stats.csv :
+	curl "https://datahub.cmap.illinois.gov/dataset/1d2dd970-f0a6-4736-96a1-3caeb431f5e4/resource/8c4e096e-c90c-4bef-9cf1-9028d094296e/download/ReferenceCCA20112015.csv" | sed -e "s:n/a::g" > data/geodata/community_area_stats.csv
+
+
+data/analysis/%.csv : view_%
+	psql $(ILTICKETS_DB_URL) -c "\copy (select * from public.$*) TO '$(CURDIR)/data/analysis/$*.csv' with (delimiter ',', format csv, header);"
+
+
+load_geodata_% :
+	psql $(ILTICKETS_DB_URL) -c "\copy public.$* FROM '$(CURDIR)/data/geodata/$*.csv' with (delimiter ',', format csv, header);"
+
+
+load_community_areas : data/geodata/community_area_stats.csv
+	ogr2ogr -f "PostgreSQL" PG:"dbname=iltickets" "data/geodata/community-areas.json" -nln community_area_geography -overwrite
+
+
+clean_community_areas :
+	psql $(ILTICKETS_DB_URL) -c "update community_area_stats set "GEOG"=upper("GEOG");"
+
+
+sql/tables/community_area_stats.sql : data/geodata/community_area_stats.csv
+	csvsql $< > $@
 
 
 data/parking/A50951_PARK_Year_%.txt :
@@ -89,8 +134,5 @@ dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
 	touch $<
 
 
-clean_files :
-	rm -Rf data/cameras/*
-	rm -Rf data/parking/*
-	rm -Rf data/processed/*
-	rm -Rf dupes/*
+clean_% :
+	rm -Rf data/$*/*
