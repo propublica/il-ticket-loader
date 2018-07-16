@@ -10,10 +10,10 @@ all: bootstrap parking
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
 
 bootstrap : create_db tables schema
-tables = $(patsubst %, table_%, $(TABLES))
-indexes = $(patsubst %, index_%, $(TABLES))
-views = $(patsubst %, view_%, $(VIEWS))
-analysis = $(patsubst %, data/analysis/%.csv, $(VIEWS))
+tables : $(patsubst %, table_%, $(TABLES))
+indexes : $(patsubst %, index_%, $(TABLES))
+views : $(patsubst %, view_%, $(VIEWS))
+analysis : $(patsubst %, data/analysis/%.csv, $(VIEWS))
 
 parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(YEARS))
@@ -45,7 +45,7 @@ endef
 
 create_db :
 	$(check_database) psql $(ILTICKETS_DB_ROOT_URL) -c "create database $(ILTICKETS_DB_NAME)"
-	psql $(ILTICKETS_DB_URL) -c "CREATE EXTENSION postgis;"
+	psql $(ILTICKETS_DB_NAME) -c "CREATE EXTENSION postgis;"
 
 
 table_% : sql/tables/%.sql
@@ -61,10 +61,10 @@ index_% :
 
 
 schema :
-	psql $(ILTICKETS_DB_URL) -c "CREATE SCHEMA tmp;"
+	psql $(ILTICKETS_DB_NAME) -c "CREATE SCHEMA tmp;"
 
 
-drop_db : create_db
+drop_db :
 	psql $(ILTICKETS_DB_ROOT_URL) -c "drop database $(ILTICKETS_DB_NAME);" && rm -f dupes/*
 
 
