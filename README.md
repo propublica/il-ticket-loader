@@ -6,6 +6,7 @@
 * Python 3
 * PostgreSQL
 * ProPublica Illinois S3 bucket credentials
+* CSVKit (with Homebrew already installed, run: `pip install csvkit`)
 
 ## Configuration
 
