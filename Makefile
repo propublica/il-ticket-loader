@@ -6,14 +6,14 @@ DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
 
-all: bootstrap parking
+all: bootstrap tables load_geocodes load_geodata_community_area_stats load_community_areas parking indexes views analysis
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
 
 bootstrap : create_db tables schema
-tables = $(patsubst %, table_%, $(TABLES))
-indexes = $(patsubst %, index_%, $(TABLES))
-views = $(patsubst %, view_%, $(VIEWS))
-analysis = $(patsubst %, data/analysis/%.csv, $(VIEWS))
+tables : $(patsubst %, table_%, $(TABLES))
+indexes : $(patsubst %, index_%, $(TABLES))
+views : $(patsubst %, view_%, $(VIEWS))
+analysis : $(patsubst %, data/analysis/%.csv, $(VIEWS))
 
 parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(YEARS))
@@ -64,12 +64,8 @@ schema :
 	psql $(ILTICKETS_DB_URL) -c "CREATE SCHEMA tmp;"
 
 
-drop_db : create_db
+drop_db :
 	psql $(ILTICKETS_DB_ROOT_URL) -c "drop database $(ILTICKETS_DB_NAME);" && rm -f dupes/*
-
-
-load_geocodes : load_parking
-	psql $(ILTICKETS_DB_URL) -c "insert into geocodes (address) select address from parking group by address on conflict do nothing;"
 
 
 data/geodata/community-areas.json :
@@ -88,12 +84,12 @@ load_geodata_% :
 	psql $(ILTICKETS_DB_URL) -c "\copy public.$* FROM '$(CURDIR)/data/geodata/$*.csv' with (delimiter ',', format csv, header);"
 
 
-load_community_areas : data/geodata/community_area_stats.csv
-	ogr2ogr -f "PostgreSQL" PG:"dbname=iltickets" "data/geodata/community-areas.json" -nln community_area_geography -overwrite
+load_community_areas : data/geodata/community-areas.json
+	ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/community-areas.json" -nln community_area_geography -overwrite
 
 
 clean_community_areas :
-	psql $(ILTICKETS_DB_URL) -c "update community_area_stats set "GEOG"=upper("GEOG");"
+	psql $(ILTICKETS_DB_URL) -c "update community_area_stats set "GEOG"=upper("GEOG"); update community_area_stats set geog = 'OHARE' where geog = 'O''HARE'; update community_area_stats set geog = 'LOOP' where geog = 'THE LOOP';"
 
 
 sql/tables/community_area_stats.sql : data/geodata/community_area_stats.csv
