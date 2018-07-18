@@ -84,8 +84,8 @@ load_geodata_% :
 	psql $(ILTICKETS_DB_URL) -c "\copy public.$* FROM '$(CURDIR)/data/geodata/$*.csv' with (delimiter ',', format csv, header);"
 
 
-load_community_areas : data/geodata/community_area_stats.csv
-	ogr2ogr -f "PostgreSQL" PG:"dbname=iltickets" "data/geodata/community-areas.json" -nln community_area_geography -overwrite
+load_community_areas : data/geodata/community-areas.json
+	ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/community-areas.json" -nln community_area_geography -overwrite
 
 
 clean_community_areas :
