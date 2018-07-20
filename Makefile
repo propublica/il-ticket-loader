@@ -104,6 +104,13 @@ data/cameras/A50951_AUCM_Year_%.txt :
 	aws s3 cp s3://data.il.propublica.org/il-tickets/cameras/$(@F) $@
 
 
+data/dumps/geocodes.dump :
+	aws s3 cp s3://data.il.propublica.org/il-tickets/dumps/geocodes.dump data/dumps/geocodes.dump
+
+
+load_geocodes : data/dumps/geocodes.dump table_geocodes
+	pg_restore -d "$(ILTICKETS_DB_URL)" --clean -t geocodes data/dumps/geocodes.dump
+
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt
 	python processors/clean_csv.py $< > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
