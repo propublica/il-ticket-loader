@@ -6,10 +6,11 @@ DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
 
-all: bootstrap tables load_geocodes load_geodata_community_area_stats load_community_areas parking indexes views analysis
+all: bootstrap geo parking indexes views analysis
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
 
 bootstrap : create_db tables schema
+geo: load_geocodes load_geodata_community_area_stats load_community_areas clean_community_areas
 tables : $(patsubst %, table_%, $(TABLES))
 indexes : $(patsubst %, index_%, $(TABLES))
 views : $(patsubst %, view_%, $(VIEWS))
