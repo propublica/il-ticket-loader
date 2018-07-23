@@ -6,10 +6,11 @@ DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
 
-all: bootstrap tables load_geocodes load_geodata_community_area_stats load_community_areas parking indexes views analysis
+all: bootstrap geo parking indexes views analysis
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
 
 bootstrap : create_db tables schema
+geo: load_geocodes load_geodata_community_area_stats load_community_areas clean_community_areas
 tables : $(patsubst %, table_%, $(TABLES))
 indexes : $(patsubst %, index_%, $(TABLES))
 views : $(patsubst %, view_%, $(VIEWS))
@@ -92,10 +93,6 @@ clean_community_areas :
 	psql $(ILTICKETS_DB_URL) -c "update community_area_stats set "GEOG"=upper("GEOG"); update community_area_stats set geog = 'OHARE' where geog = 'O''HARE'; update community_area_stats set geog = 'LOOP' where geog = 'THE LOOP';"
 
 
-sql/tables/community_area_stats.sql : data/geodata/community_area_stats.csv
-	csvsql $< > $@
-
-
 data/parking/A50951_PARK_Year_%.txt :
 	aws s3 cp s3://data.il.propublica.org/il-tickets/parking/$(@F) $@
 
@@ -103,6 +100,13 @@ data/parking/A50951_PARK_Year_%.txt :
 data/cameras/A50951_AUCM_Year_%.txt :
 	aws s3 cp s3://data.il.propublica.org/il-tickets/cameras/$(@F) $@
 
+
+data/dumps/geocodes-city-stickers.dump :
+	aws s3 cp s3://data.il.propublica.org/il-tickets/dumps/geocodes-city-stickers.dump data/dumps/geocodes-city-stickers.dump
+
+
+load_geocodes : data/dumps/geocodes-city-stickers.dump table_geocodes
+	pg_restore -d "$(ILTICKETS_DB_URL)" --no-acl --no-owner --clean -t geocodes data/dumps/geocodes-city-stickers.dump
 
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt
 	python processors/clean_csv.py $< > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt

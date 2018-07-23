@@ -7,5 +7,6 @@ CREATE TABLE public.geocodes (
   geocoded_city character varying,
   geocoded_state character varying,
   geocode_accuracy character varying,
-  geocode_geojson jsonb
+  geocode_geojson jsonb,
+  geom geometry(Geometry,4326)
 )

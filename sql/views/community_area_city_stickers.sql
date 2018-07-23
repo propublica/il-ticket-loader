@@ -25,7 +25,7 @@ as
     community_area_stats s on s.geog = c.community
   where
     (p.violation_code = '0964125' or
-    violation_code = '0964125B')
+    p.violation_code = '0964125B')
     and g.geocode_accuracy != 'GEOMETRIC_CENTER'
   group by
     c.community,
