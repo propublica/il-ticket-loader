@@ -93,10 +93,6 @@ clean_community_areas :
 	psql $(ILTICKETS_DB_URL) -c "update community_area_stats set "GEOG"=upper("GEOG"); update community_area_stats set geog = 'OHARE' where geog = 'O''HARE'; update community_area_stats set geog = 'LOOP' where geog = 'THE LOOP';"
 
 
-sql/tables/community_area_stats.sql : data/geodata/community_area_stats.csv
-	csvsql $< > $@
-
-
 data/parking/A50951_PARK_Year_%.txt :
 	aws s3 cp s3://data.il.propublica.org/il-tickets/parking/$(@F) $@
 
