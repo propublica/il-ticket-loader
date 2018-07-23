@@ -9,21 +9,22 @@
 
 ## Configuration
 
-You must set some environment variables.
-
-```
-export ILTICKETS_DB_URL=postgres://localhost/iltickets
-export ILTICKETS_DB_ROOT_URL=postgres://localhost
-export ILTICKETS_DB_NAME=iltickets
-```
-
-(I know, they kind of violate DRY. This whole thing kind of violates DRY.)
-
 A default configuration can be imported by running:
 
 ```
 source env/dev.sh
 ```
+
+Or you can set environment variables:
+
+```
+export ILTICKETS_DB_URL=postgres://localhost/iltickets
+export ILTICKETS_DB_ROOT_URL=postgres://localhost
+export ILTICKETS_DB_NAME=iltickets
+export ILTICKETS_DB_STRING="dbname=iltickets"
+```
+
+This variables are a bit repetitive. Of note is `ILTICKETS_DB_STRING`, which is the [`ogr2ogr`](http://www.gdal.org/drv_pg.html) connection string.
 
 ## Running
 
