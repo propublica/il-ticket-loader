@@ -36,11 +36,13 @@ Slow version:
 make all
 ```
 
-Faster, slightly embarassing version (for machines with multiple cores):
+Fast version:
 
 ```
-make bootstrap tables load_geocodes load_geodata_community_area_stats load_community_areas && make -j 8 parking && make indexes views analysis
+make bootstrap geo && make -j 8 parking && make indexes views analysis
 ```
+
+Set `-j N` to reflect the number of processors available on your system.
 
 ### Reset the database
 
