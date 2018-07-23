@@ -52,6 +52,6 @@ def process(limit, offset):
 
 
 if __name__ == '__main__':
-    limit = sys.argv[1]
-    offset = sys.argv[2]
+    limit = int(sys.argv[1])
+    offset = int(sys.argv[2])
     process(limit, offset)
