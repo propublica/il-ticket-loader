@@ -1,10 +1,11 @@
 import geocoder
 import records
 import json
+import os
 import sys
 
+db = records.Database(os.environ.get('ILTICKETS_DB_URL', 'postgres://localhost/iltickets'))
 
-db = records.Database('postgres://localhost/iltickets')
 
 def process(limit, offset):
     rows = db.query("""
