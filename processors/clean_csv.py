@@ -2,7 +2,9 @@ import csv
 import re
 import sys
 
-address_re = re.compile(r"(\d*)(\d{2})(\s)", re.IGNORECASE)
+block_re = re.compile(r"(\d*)(\d{2})(\s)", re.IGNORECASE)
+twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
+
 
 def clean_commas(row):
     if row[8].startswith('WINDOWS MISSING OR CRACKED BEYOND') or row[8].startswith('SUSPENSION MODIFIED BEYOND'):
@@ -19,7 +21,15 @@ def clean_location(row):
 
 
 def clean_address(address):
-    return address_re.sub(r'\g<1>00\g<3>', address).lower()
+    """
+    Simplistic block-level address parsing
+
+    6232 S. Loomis -> 6200 S. Loomis
+    15 North State St -> 1 North State St
+    """
+    ret = block_re.sub(r'\g<1>00\g<3>', address).lower()
+    ret = twodigit_re.sub(r'1 \g<2>', ret)
+    return ret
 
 
 def clean(filename):

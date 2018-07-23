@@ -10,21 +10,22 @@
 
 ## Configuration
 
-You must set some environment variables.
-
-```
-export ILTICKETS_DB_URL=postgres://localhost/iltickets
-export ILTICKETS_DB_ROOT_URL=postgres://localhost
-export ILTICKETS_DB_NAME=iltickets
-```
-
-(I know, they kind of violate DRY. This whole thing kind of violates DRY.)
-
 A default configuration can be imported by running:
 
 ```
 source env/dev.sh
 ```
+
+Or you can set environment variables:
+
+```
+export ILTICKETS_DB_URL=postgres://localhost/iltickets
+export ILTICKETS_DB_ROOT_URL=postgres://localhost
+export ILTICKETS_DB_NAME=iltickets
+export ILTICKETS_DB_STRING="dbname=iltickets"
+```
+
+This variables are a bit repetitive. Of note is `ILTICKETS_DB_STRING`, which is the [`ogr2ogr`](http://www.gdal.org/drv_pg.html) connection string.
 
 ## Running
 
@@ -36,11 +37,13 @@ Slow version:
 make all
 ```
 
-Faster, slightly embarassing version (for machines with multiple cores):
+Fast version:
 
 ```
-make bootstrap tables load_geocodes load_geodata_community_area_stats load_community_areas && make -j 8 parking && make indexes views analysis
+make bootstrap geo && make -j 8 parking && make indexes views analysis
 ```
+
+Set `-j N` to reflect the number of processors available on your system.
 
 ### Reset the database
 
@@ -84,5 +87,9 @@ To load, we first load the data into a `tmp` PostgreSQL schema (we can't use "re
 We then copy from the `tmp` schema to the `public` schema, ignoring duplicates. We currently keep the existing record and throw out the old one (`ON CONFLICT DO NOTHING`) but could replace.
 
 Dupes are written to the `dupes` directory as CSVs for each year where dupes were found.
+
+## Notes
+
+* `sql/tables/community_area_stats.sql` was generated with CSVKit's `csvsql` command like so:  `csvsql data/geodate/community_area_stats.csv > sql/tables/community_area_stats.sql`
 
 
