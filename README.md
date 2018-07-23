@@ -84,4 +84,8 @@ We then copy from the `tmp` schema to the `public` schema, ignoring duplicates. 
 
 Dupes are written to the `dupes` directory as CSVs for each year where dupes were found.
 
+## Notes
+
+* `sql/tables/community_area_stats.sql` was generated with CSVKit's `csvsql` command like so:  `csvsql data/geodate/community_area_stats.csv > sql/tables/community_area_stats.sql`
+
 
