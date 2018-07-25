@@ -54,7 +54,7 @@ table_% : sql/tables/%.sql
 
 
 view_% : sql/views/%.sql
-	$(check_public_relation) psql $(ILTICKETS_DB_URL) -f $<
+	psql $(ILTICKETS_DB_URL) -f $<
 
 
 index_% :
