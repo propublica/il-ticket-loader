@@ -15,7 +15,8 @@ as
     s.asian,
     s.asian / s.tot_pop as asian_pct,
     s.other,
-    s.other / s.tot_pop as other_pct
+    s.other / s.tot_pop as other_pct,
+    s.medinc
   from parking p
   inner join
     geocodes g on p.address = g.address
@@ -35,5 +36,6 @@ as
     s.black,
     s.hisp,
     s.asian,
-    s.other
+    s.other,
+    s.medinc
   order by per_household desc;
