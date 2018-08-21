@@ -1,6 +1,7 @@
 import csv
 import re
 import sys
+from Crypto.Hash import SHA256
 
 block_re = re.compile(r"(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
@@ -32,9 +33,20 @@ def clean_address(address):
     return ret
 
 
-def clean(filename):
+def hash_plates(row, salt):
+    hash = SHA256.new()
+    plate = row[3]
+    to_hash = (plate + salt).encode('utf-8')
+    hash.update(to_hash)
+    row[3]= hash.hexdigest()
+    return row
+
+
+def clean(data_filename, salt_filename):
+    with open(salt_filename, 'r') as f:
+        salt = f.read()
     writer = csv.writer(sys.stdout, quoting=csv.QUOTE_ALL)
-    with open(filename) as f:
+    with open(data_filename) as f:
         reader = csv.reader(f, delimiter="$", quotechar='"')
         headers = next(reader)
         writer.writerow(headers)
@@ -43,10 +55,11 @@ def clean(filename):
             try:
                 row = clean_commas(row)
                 row = clean_location(row)
+                row = hash_plates(row, salt)
                 writer.writerow(row)
             except IndexError:
                 print(row, file=sys.stderr)
 
 
 if __name__ == '__main__':
-    clean(sys.argv[1])
+    clean(sys.argv[1], sys.argv[2])
