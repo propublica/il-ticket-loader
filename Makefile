@@ -1,12 +1,12 @@
-#YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
-YEARS = 2011 2012 2013 2014 2015
+YEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 TABLES = parking cameras geocodes community_area_stats
 VIEWS = community_area_city_stickers geocode_accuracy
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
+.INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo parking indexes views analysis
+all: processors/salt.txt bootstrap geo parking indexes views analysis
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
 
 bootstrap : create_db tables schema
@@ -81,7 +81,7 @@ data/analysis/%.csv : view_%
 	psql $(ILTICKETS_DB_URL) -c "\copy (select * from public.$*) TO '$(CURDIR)/data/analysis/$*.csv' with (delimiter ',', format csv, header);"
 
 
-load_geodata_% :
+load_geodata_% : data/geodata/community_area_stats.csv
 	psql $(ILTICKETS_DB_URL) -c "\copy public.$* FROM '$(CURDIR)/data/geodata/$*.csv' with (delimiter ',', format csv, header);"
 
 
@@ -108,8 +108,11 @@ data/dumps/geocodes-city-stickers.dump :
 load_geocodes : data/dumps/geocodes-city-stickers.dump table_geocodes
 	pg_restore -d "$(ILTICKETS_DB_URL)" --no-acl --no-owner --clean -t geocodes data/dumps/geocodes-city-stickers.dump
 
+processors/salt.txt :
+	python processors/create_salt.py
+
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt
-	python processors/clean_csv.py $< > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
+	python processors/clean_csv.py $^ processors/salt.txt > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
 
 data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt
