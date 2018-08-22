@@ -4,7 +4,7 @@ VIEWS = community_area_city_stickers geocode_accuracy
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
-.INTERMEDIATE: salt.txt
+.INTERMEDIATE: processors/salt.txt
 
 all: processors/salt.txt bootstrap geo parking indexes views analysis
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
