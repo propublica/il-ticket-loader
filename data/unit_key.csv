@@ -1,0 +1,388 @@
+﻿,,,,,,
+CANVAS TABLE,,,,,TABLE FOR WBEZ,
+Reporting District,Department Name,Department Description,Department Category,,Reporting District,Department Category
+18,CPD,1160 N. Larrabee,CPD,,18,CPD
+19,CPD,2452 W. Belmont,CPD,,19,CPD
+20,CPD,5400 N. Lincoln Ave,CPD,,20,CPD
+21,CPD,300 E 29th Street,CPD,,21,CPD
+22,CPD,1900 W. Monterey,CPD,,22,CPD
+23,CPD,3600 N. Halsted,CPD,,23,CPD
+24,CPD,6464 N. Clark,CPD,,24,CPD
+25,CPD,5555 W. Grand,CPD,,25,CPD
+26,CPD-Other,Other Police,CPD,,26,CPD
+27,CPD-Other,Other Police,CPD,,27,CPD
+28,CPD-Other,Other Police,CPD,,28,CPD
+29,CPD-Other,Other Police,CPD,,29,CPD
+30,CPD-Other,Other Police,CPD,,30,CPD
+31,CPD-Other,Other Police,CPD,,31,CPD
+32,CPD-Other,Other Police,CPD,,32,CPD
+33,CPD-Other,Other Police,CPD,,33,CPD
+35,CPD-Other,Other Police,CPD,,35,CPD
+43,CPD-Other,Other Police,CPD,,43,CPD
+44,CPD-Other,Recruit Training,CPD,,44,CPD
+45,CPD-Other,District Reinstatement,CPD,,45,CPD
+49,CPD-Other,Other Police,CPD,,49,CPD
+50,CPD-Airport,O'Hare Airport,CPD,,50,CPD
+51,CPD-Airport,Midway Airport,CPD,,51,CPD
+53,Miscellaneous,Bureau of Electricity,Miscellaneous/Other,,53,Other
+55,CPD,Mounted Unit,CPD,,55,CPD
+57,CPD,Detail Unit,CPD,,57,CPD
+59,CPD,Marine Unit,CPD,,59,CPD
+60,CPD-Other,Helicopter Unit,CPD,,60,CPD
+61,CPD-Other,Other Police,CPD,,61,CPD
+69,CPD-Other,Other Police,CPD,,69,CPD
+70,CPD-Other,Other Police,CPD,,70,CPD
+71,CPD-Other,Other Police,CPD,,71,CPD
+73,CPD-Other,Other Police,CPD,,73,CPD
+74,CPD-Other,Other Police,CPD,,74,CPD
+75,CPD-Other,Other Police,CPD,,75,CPD
+77,CPD-Other,Other Police,CPD,,77,CPD
+78,CPD-Other,Other Police,CPD,,78,CPD
+79,CPD-Other,Special Investigations Unit,CPD,,79,CPD
+80,CPD-Other,Other Police,CPD,,80,CPD
+81,CPD-Other,Other Police,CPD,,81,CPD
+87,CPD-Other,Other Police,CPD,,87,CPD
+92,Miscellaneous,Chicago State University,Miscellaneous/Other,,92,Other
+93,CPD-Other,Other Police,CPD,,93,CPD
+99,CPD-Other,Other Police,CPD,,99,CPD
+100,CPD-Other,Other Police,CPD,,100,CPD
+101,CPD-Other,Police Board,CPD,,101,CPD
+110,CPD-Other,Other Police,CPD,,110,CPD
+111,CPD-Other,Department Administration,CPD,,111,CPD
+112,CPD-Other,Bureau of Professional Standards,CPD,,112,CPD
+113,CPD-Other,Independent Police Review Authority,CPD,,113,CPD
+114,CPD-Other,Office of Legal Affairs,CPD,,114,CPD
+115,CPD-Other,CAPS Project Office,CPD,,115,CPD
+116,CPD-Other,Deployment Operations Center Section,CPD,,116,CPD
+117,CPD-Other,Office of Asst Superintendent ,CPD,,117,CPD
+118,CPD-Other,Chaplains Section,CPD,,118,CPD
+119,CPD-Other,Other Police,CPD,,119,CPD
+120,CPD-Other,Bureau of Admin Services,CPD,,120,CPD
+121,CPD-Other,Internal Affairs Division,CPD,,121,CPD
+122,CPD-Other,Finance Division,CPD,,122,CPD
+123,CPD-Other,Human Resources Division,CPD,,123,CPD
+124,CPD-Other,Education and Training Division,CPD,,124,CPD
+125,CPD-Other,Information Services Division,CPD,,125,CPD
+126,CPD-Other,Inspection Division,CPD,,126,CPD
+127,CPD-Other,Research and Development Division,CPD,,127,CPD
+128,CPD-Other,Professional Counseling Services,CPD,,128,CPD
+129,CPD-Other,Management and Labor Affairs Section,CPD,,129,CPD
+130,CPD-Other,Other Police,CPD,,130,CPD
+131,CPD-Other,Domestic Violence Office,CPD,,131,CPD
+132,CPD-Other,Neighborhood Relations Division,CPD,,132,CPD
+133,CPD-Other,Other Police,CPD,,133,CPD
+134,CPD-Other,Field Technology Training Unit,CPD,,134,CPD
+135,CPD-Other,CAPS Implementation,CPD,,135,CPD
+136,CPD-Other,Special Events and Liaison Section,CPD,,136,CPD
+139,CPD,Back to Streets,CPD,,139,CPD
+140,CPD,Security Detail,CPD,,140,CPD
+141,CPD-Other,Special Functions Group,CPD,,141,CPD
+142,CPD-Other,Bureau of Patrol - Administration,CPD,,142,CPD
+143,CPD-Other,Court Liaison Section,CPD,,143,CPD
+145,CPD-Other,Traffic Section - Administration,CPD,,145,CPD
+146,CPD-Other,Major Accident,CPD,,146,CPD
+147,CPD-Other,Senior Citizen Services Section,CPD,,147,CPD
+148,CPD-Other,Traffic Court/Records Unit,CPD,,148,CPD
+151,CPD,Traffic Enforcement,CPD,,151,CPD
+152,CPD,Loop Traffic,CPD,,152,CPD
+153,CPD,Mobile Strike Force,CPD,,153,CPD
+154,CPD-Other,Traffic Safety and Training Unit,CPD,,154,CPD
+157,CPD-Other,Other Police,CPD,,157,CPD
+160,CPD-Other,Facilities Management Unit,CPD,,160,CPD
+161,CPD-Other,General Support Division,CPD,,161,CPD
+162,CPD-Other,Records Services Division,CPD,,162,CPD
+163,CPD-Other,Records Inquiry Section,CPD,,163,CPD
+166,CPD-Other,Field Services Section,CPD,,166,CPD
+167,CPD-Other,Evidence and Recovered Property Unit,CPD,,167,CPD
+168,CPD-Other,Auto Pounds Section,CPD,,168,CPD
+169,CPD-Other,Police Document Services Section,CPD,,169,CPD
+170,CPD-Other,Counter Terrorism/Intelligence Division,CPD,,170,CPD
+171,CPD-Other,Central Detention Section,CPD,,171,CPD
+172,CPD-Other,Equipment and Supply Section,CPD,,172,CPD
+173,CPD-Other,Fleet Liaison,CPD,,173,CPD
+175,CPD-Other,Telephone Audit Unit,CPD,,175,CPD
+177,CPD-Other,Forensics Services Section,CPD,,177,CPD
+179,CPD-Other,Reproduction and Graphic Arts,CPD,,179,CPD
+180,CPD-Other,Bureau of Investigative Services,CPD,,180,CPD
+182,CPD-Other,Other Police,CPD,,182,CPD
+184,CPD-Other,Youth Investigation Section,CPD,,184,CPD
+188,CPD-Other,Organized Crime Division,CPD,,188,CPD
+189,CPD-Other,Narcotics Section,CPD,,189,CPD
+191,CPD-Other,Intelligence Section,CPD,,191,CPD
+192,CPD-Other,Vice Control Section,CPD,,192,CPD
+193,CPD-Other,Gang Investigation Section,CPD,,193,CPD
+195,CPD-Other,Office of Management Accountability,CPD,,195,CPD
+196,CPD-Other,Asset Forfeiture Unit,CPD,,196,CPD
+198,CPD-Other,Other Police,CPD,,198,CPD
+202,CPD-Other,Other Police,CPD,,202,CPD
+205,CPD-Other,Other Police,CPD,,205,CPD
+209,CPD-Other,Other Police,CPD,,209,CPD
+211,CPD-Other,"Deputy Chief, Area 1",CPD,,211,CPD
+212,CPD-Other,"Deputy Chief, Area 2",CPD,,212,CPD
+213,CPD-Other,"Deputy Chief, Area 3",CPD,,213,CPD
+214,CPD-Other,"Deputy Chief, Area 4",CPD,,214,CPD
+215,CPD-Other,"Deputy Chief, Area 5",CPD,,215,CPD
+216,CPD,Bike Patrol Unit,CPD,,216,CPD
+217,CPD-Other,Other Police,CPD,,217,CPD
+225,CPD-Other,Other Police,CPD,,225,CPD
+231,CPD-Other,Medical Services Section,CPD,,231,CPD
+232,CPD-Other,Other Police,CPD,,232,CPD
+235,CPD-Other,Other Police,CPD,,235,CPD
+252,CPD,OEMC,CPD,,252,CPD
+253,CPD,Target Response Unit,CPD,,253,CPD
+257,CPD-Other,Other Police,CPD,,257,CPD
+262,CPD-Other,Other Police,CPD,,262,CPD
+276,CPD-Other,OEMC Detail,CPD,,276,CPD
+284,CPD,Youth Division/School Patrol,CPD,,284,CPD
+301,CPD-Other,Other Police,CPD,,301,CPD
+309,CPD-Other,Other Police,CPD,,309,CPD
+729,Miscellaneous,CPM,Chicago Parking Meter,,729,Other
+341,CPD-Other,K9 Unit,CPD,,341,CPD
+0TEM,CPD-Other,Other Police,CPD,,0TEM,CPD
+1024,CPD-Other,Other Police,CPD,,1024,CPD
+1032,CPD-Other,Other Police,CPD,,1032,CPD
+1122,CPD-Other,Other Police,CPD,,1122,CPD
+1524,CPD-Other,Other Police,CPD,,1524,CPD
+158,CPD-Other,Other Police,CPD,,158,CPD
+1611,CPD-Other,Other Police,CPD,,1611,CPD
+1623,CPD-Other,Other Police,CPD,,1623,CPD
+1644,CPD-Other,Other Police,CPD,,1644,CPD
+165,CPD-Other,Other Police,CPD,,165,CPD
+1723,CPD-Other,Other Police,CPD,,1723,CPD
+1732,CPD-Other,Other Police,CPD,,1732,CPD
+1733,CPD-Other,Other Police,CPD,,1733,CPD
+2123,CPD-Other,Other Police,CPD,,2123,CPD
+2124,CPD-Other,Other Police,CPD,,2124,CPD
+2131,CPD-Other,Other Police,CPD,,2131,CPD
+2142,CPD-Other,Other Police,CPD,,2142,CPD
+242,CPD-Other,Other Police,CPD,,242,CPD
+2431,CPD-Other,Other Police,CPD,,2431,CPD
+244,CPD-Other,Other Police,CPD,,244,CPD
+250,CPD-Other,Other Police,CPD,,250,CPD
+255,CPD-Other,Other Police,CPD,,255,CPD
+272,CPD-Other,Other Police,CPD,,272,CPD
+2,CPD,5101 S. Wentworth,CPD,,2,CPD
+3,CPD,7040 S. Cottage Grove,CPD,,3,CPD
+4,CPD,2255 E. 103rd Street,CPD,,4,CPD
+5,CPD,727 E. 11th Street,CPD,,5,CPD
+6,CPD,7808 S. Halsted,CPD,,6,CPD
+7,CPD,6120 S. Racine,CPD,,7,CPD
+8,CPD,3420 W 63rd,CPD,,8,CPD
+9,CPD,3120 S Halsted,CPD,,9,CPD
+10,CPD,3315 W. Ogden,CPD,,10,CPD
+11,CPD,3151 W. Harrison,CPD,,11,CPD
+12,CPD,100 S. Racine,CPD,,12,CPD
+13,CPD,"937 N. Wood, 2nd Fl",CPD,,13,CPD
+14,CPD,2150 N. California,CPD,,14,CPD
+15,CPD,5701 W. Madison,CPD,,15,CPD
+16,CPD,5151 N. Milwaukee,CPD,,16,CPD
+17,CPD,4650 N. Pulaski,CPD,,17,CPD
+311,CPD-Other,Gang Team 1,CPD,,311,CPD
+312,CPD-Other,Gang Team 2,CPD,,312,CPD
+313,CPD-Other,Gang Team 3,CPD,,313,CPD
+314,CPD-Other,Gang Team 4,CPD,,314,CPD
+315,CPD-Other,Gang Team 5,CPD,,315,CPD
+325,CPD-Other,Other Police,CPD,,325,CPD
+333,Miscellaneous,Mayor's Office of People w Disabilities,Miscellaneous/Other,,333,Other
+351,CPD-Other,Other Police,CPD,,351,CPD
+353,CPD,Operation Closed Market,CPD,,353,CPD
+355,CPD-Other,Other Police,CPD,,355,CPD
+376,CPD-Other,Alternate Response Section,CPD,,376,CPD
+377,CPD-Other,Evidence Technician Team - North,CPD,,377,CPD
+384,CPD-Other,Juvenile Intervention,CPD,,384,CPD
+385,CPD-Other,Other Police,CPD,,385,CPD
+393,CPD-Other,Gang Enforcement Section,CPD,,393,CPD
+398,CPD-Other,Other Police,CPD,,398,CPD
+404,CPD-Other,Other Police,CPD,,404,CPD
+412,CPD-Other,Other Police,CPD,,412,CPD
+416,CPD-Other,Other Police,CPD,,416,CPD
+419,CPD-Other,Other Police,CPD,,419,CPD
+424,CPD-Other,Other Police,CPD,,424,CPD
+432,CPD-Other,Other Police,CPD,,432,CPD
+433,CPD-Other,Other Police,CPD,,433,CPD
+443,CPD-Other,Other Police,CPD,,443,CPD
+446,CPD-Other,Other Police,CPD,,446,CPD
+451,CPD-Other,Other Police,CPD,,451,CPD
+455,CPD-Other,Other Police,CPD,,455,CPD
+464,CPD-Other,Other Police,CPD,,464,CPD
+471,Miscellaneous,Pacific Railroad,Miscellaneous/Other,,471,Other
+476,CPD-Other,Other Police,CPD,,476,CPD
+477,CPD-Other,Evidence Technician Team - South,CPD,,477,CPD
+488,CPD-Other,Other Police,CPD,,488,CPD
+490,Miscellaneous,Cook County Sheriff,Miscellaneous/Other,,490,Other
+491,Miscellaneous,Cook County Sheriff,Miscellaneous/Other,,491,Other
+492,Miscellaneous,Aviation- Midway/Ohare,Miscellaneous/Other,,492,Other
+493,CPD,Union Pacific Railroad,CPD,,493,CPD
+494,CPD,Amtrak,CPD,,494,CPD
+495,Miscellaneous,Streets and Sanitation,Streets and San,,495,Other
+496,Miscellaneous,UIC,Miscellaneous/Other,,496,Other
+497,Miscellaneous,Illinois State Police,Miscellaneous/Other,,497,Other
+498,DOF,Department of Finance,DOF,,498,DOF
+499,Miscellaneous,Streets and Sanitation,Streets and San,,499,Other
+500,Miscellaneous,C-DOT,Miscellaneous/Other,,500,Other
+501,Miscellaneous,City Clerk Office,Miscellaneous/Other,,501,Other
+502,DOF,SERCO,SERCO,,502,Other
+503,DOF,Business License Investigation,DOF,,503,DOF
+504,Miscellaneous,SERCO/City Clerk,Miscellaneous/Other,,504,Other
+505,CPD-Other,Other Police,CPD,,505,Other
+506,CPD-Other,Other Police,CPD,,506,Other
+507,CPD-Other,Other Police,CPD,,507,Other
+511,Miscellaneous,Chicago Transit Authority,Miscellaneous/Other,,511,Other
+512,CPD-Other,Other Police,CPD,,512,CPD
+522,CPD-Other,Other Police,CPD,,522,CPD
+524,CPD-Other,Other Police,CPD,,524,CPD
+532,CPD-Other,Other Police,CPD,,532,CPD
+533,CPD-Other,Other Police,CPD,,533,CPD
+541,CPD-Other,Fraternal Order of Police,CPD,,541,CPD
+542,CPD-Other,Detached Services - Security Detail,CPD,,542,CPD
+543,CPD-Other,Detached Services - Misc Detail,CPD,,543,CPD
+545,CPD-Other,PBPA Sergeant,CPD,,545,CPD
+547,CPD-Other,Chicago Police Memorial Foundation,CPD,,547,CPD
+549,CPD-Other,Inspector General Detail,CPD,,549,CPD
+551,CPD-Other,Other Police,CPD,,551,CPD
+557,CPD,Bureau of Patrol - Crossing Guard,CPD,,557,CPD
+571,CPD-Other,Other Police,CPD,,571,CPD
+577,CPD-Other,Other Police,CPD,,577,CPD
+588,CPD-Other,34 E. 112th. Pl.,CPD,,588,CPD
+601,CPD-Other,Detective Division - Administration,CPD,,601,CPD
+603,CPD-Other,Other Police,CPD,,603,CPD
+604,CPD-Other,Bomb and Arson Section,CPD,,604,CPD
+605,CPD-Other,FBI Task Force Unit,CPD,,605,CPD
+606,CPD-Other,Central Investigations Section,CPD,,606,CPD
+607,CPD-Other,Cold Case Unit,CPD,,607,CPD
+608,CPD-Other,Major Accident Investigation,CPD,,608,CPD
+609,CPD-Other,Financial Crimes Unit,CPD,,609,CPD
+610,CPD-Other,Detective Division - Area 1,CPD,,610,CPD
+611,CPD-Other,Other Police,CPD,,611,CPD
+612,CPD-Other,Other Police,CPD,,612,CPD
+613,CPD-Other,Other Police,CPD,,613,CPD
+616,CPD-Other,Other Police,CPD,,616,CPD
+620,CPD-Other,Detective Division - Area 2,CPD,,620,CPD
+621,Miscellaneous,Cook County Police,Miscellaneous/Other,,621,Other
+630,CPD-Other,Detective Division - Area 3,CPD,,630,CPD
+631,CPD-Other,Other Police,CPD,,631,CPD
+632,CPD-Other,Other Police,CPD,,632,CPD
+634,CPD-Other,Other Police,CPD,,634,CPD
+638,CPD-Other,Other Police,CPD,,638,CPD
+640,CPD-Other,Detective Division - Area 4,CPD,,640,CPD
+642,CPD-Other,Other Police,CPD,,642,CPD
+644,CPD-Other,Other Police,CPD,,644,CPD
+650,CPD-Other,Detective Division - Area 5,CPD,,650,CPD
+653,CPD-Other,Other Police,CPD,,653,CPD
+658,CPD-Other,Other Police,CPD,,658,CPD
+676,CPD-Other,Other Police,CPD,,676,CPD
+694,Miscellaneous,Kennedy-King College,Miscellaneous/Other,,694,Other
+701,CPD,Mass Transit,CPD,,701,CPD
+702,CPD-Other,CTA Security,CPD,,702,CPD
+703,CPD,Meigs Field (Summer Mobile),CPD,,703,CPD
+705,CPD-Other,Other Police,CPD,,705,CPD
+711,CPD-Other,Other Police,CPD,,711,CPD
+713,CPD-Other,Other Police,CPD,,713,CPD
+715,CPD,Taylor,CPD,,715,CPD
+724,CPD-Other,Other Police,CPD,,724,CPD
+728,Miscellaneous,"LAZ Parking Chicago, LLC",LAZ,,728,Other
+731,CPD-Other,Other Police,CPD,,731,CPD
+734,CPD-Other,Other Police,CPD,,734,CPD
+752,CPD-Other,Other Police,CPD,,752,CPD
+755,CPD-Other,Other Police,CPD,,755,CPD
+765,CPD,P. Housing Horner Station,CPD,,765,CPD
+792,Miscellaneous,Cook County Sheriff,Miscellaneous/Other,,792,Other
+804,CPD-Other,Other Police,CPD,,804,CPD
+813,CPD-Other,Other Police,CPD,,813,CPD
+825,CPD-Other,Other Police,CPD,,825,CPD
+827,CPD-Other,Other Police,CPD,,827,CPD
+828,CPD-Other,Other Police,CPD,,828,CPD
+829,CPD-Other,Other Police,CPD,,829,CPD
+833,CPD-Other,Other Police,CPD,,833,CPD
+834,CPD-Other,Other Police,CPD,,834,CPD
+836,CPD-Other,Other Police,CPD,,836,CPD
+838,CPD-Other,Other Police,CPD,,838,CPD
+857,CPD-Other,Other Police,CPD,,857,CPD
+859,CPD-Other,Other Police,CPD,,859,CPD
+860,CPD-Other,Other Police,CPD,,860,CPD
+861,CPD-Other,Other Police,CPD,,861,CPD
+862,Miscellaneous,University of Chicago,Miscellaneous/Other,,862,Other
+870,Miscellaneous,Chicago Park District,Miscellaneous/Other,,870,Other
+892,Miscellaneous,St Xavier University,Miscellaneous/Other,,892,Other
+896,CPD-Other,Other Police,CPD,,896,CPD
+902,CPD-Other,Other Police,CPD,,902,CPD
+911,CPD-Other,Other Police,CPD,,911,CPD
+915,CPD-Other,Other Police,CPD,,915,CPD
+921,CPD-Other,Other Police,CPD,,921,CPD
+925,CPD-Other,Other Police,CPD,,925,CPD
+931,CPD-Other,Other Police,CPD,,931,CPD
+933,CPD-Other,Other Police,CPD,,933,CPD
+935,CPD-Other,Other Police,CPD,,935,CPD
+1702,CPD-Other,Other Police,CPD,,1702,CPD
+2036,CPD-Other,Other Police,CPD,,2036,CPD
+2599,CPD-Other,Other Police,CPD,,2599,CPD
+3452,CPD-Other,Other Police,CPD,,3452,CPD
+3620,CPD-Other,Other Police,CPD,,3620,CPD
+6054,CPD-Other,Other Police,CPD,,6054,CPD
+6215,Miscellaneous,Cook County Police  ,Miscellaneous/Other,,6215,Other
+CTA,CTA,CTA,CTA,,CTA,Other
+cta,CTA,CTA,CTA,,cta,Other
+pl,CPD-Other,Other Police,CPD,,pl,CPD
+RDFX,Red Light,Red Light,Red light,,RDFX,Red Light
+0,Unidentified,NULL OR ZERO,Miscellaneous/Other,,0,Other
+,Unidentified,NULL OR ZERO,Miscellaneous/Other,,,Other
+1,CPD,1718 S. State,CPD,,1,CPD
+300,CPD-Other,Other Police,CPD,,300,CPD
+402,CPD-Other,Other Police,CPD,,402,CPD
+42,CPD-Other,Other Police,CPD,,42,CPD
+452,CPD-Other,Other Police,CPD,,452,CPD
+48,CPD-Other,Other Police,CPD,,48,CPD
+509,CPD-Other,Other Police,CPD,,509,CPD
+54,CPD-Other,Other Police,CPD,,54,CPD
+584,CPD-Other,Other Police,CPD,,584,CPD
+585,CPD-Other,Other Police,CPD,,585,CPD
+595,CPD-Other,Other Police,CPD,,595,CPD
+641,CPD-Other,Other Police,CPD,,641,CPD
+693,CPD-Other,Other Police,CPD,,693,CPD
+704,CPD-Other,Other Police,CPD,,704,CPD
+717,CPD-Other,Other Police,CPD,,717,CPD
+749,CPD-Other,Other Police,CPD,,749,CPD
+76,CPD-Other,Other Police,CPD,,76,CPD
+777,CPD-Other,Other Police,CPD,,777,CPD
+802,CPD-Other,Other Police,CPD,,802,CPD
+812,CPD-Other,Other Police,CPD,,812,CPD
+824,CPD-Other,Other Police,CPD,,824,CPD
+832,CPD-Other,Other Police,CPD,,832,CPD
+835,CPD-Other,Other Police,CPD,,835,CPD
+88,CPD-Other,Other Police,CPD,,88,CPD
+90,CPD-Other,Other Police,CPD,,90,CPD
+922,CPD-Other,Other Police,CPD,,922,CPD
+924,CPD-Other,Other Police,CPD,,924,CPD
+927,CPD-Other,Other Police,CPD,,927,CPD
+96,CPD-Other,Other Police,CPD,,96,CPD
+968,CPD-Other,Other Police,CPD,,968,CPD
+990,CPD-Other,Other Police,CPD,,990,CPD
+D2,CPD-Other,Other Police,CPD,,D2,CPD
+K52,CPD-Other,Other Police,CPD,,K52,CPD
+712,CPD-Other,Office of 1st Deputy Superintendent,CPD,,712,CPD
+8489,CPD,CPD,CPD,,8489,CPD
+SPD,Speed,Speed,Speed,,SPD,Speed
+526,Miscellaneous,Navy Pier Security,Miscellaneous/Other,,526,Other
+XERX,Red Light,Red Light,Red light,,XERX,Red Light
+241,CPD-Other,Troubled Building Section,CPD,,241,CPD
+261,CPD-Other,Court Section,CPD,,261,CPD
+277,CPD-Other,Forensic Services,CPD,,277,CPD
+411,CPD-Other,Area Central Deputy Chief,CPD,,411,CPD
+413,CPD-Other,Area North Deputy Chief,CPD,,413,CPD
+442,CPD-Other,Bomb Unit,CPD,,442,CPD
+2111,CPD-Other,Other Police,CPD,,2111,CPD
+3837,CPD-Other,Other Police,CPD,,3837,CPD
+401,CPD-Other,Other Police,CPD,,401,CPD
+414,CPD-Other,Other Police,CPD,,414,CPD
+415,CPD-Other,Other Police,CPD,,415,CPD
+707,CPD-Other,Other Police,CPD,,707,CPD
+814,CPD-Other,Other Police,CPD,,814,CPD
+789,CPD-Other,Other Police,CPD,,789,CPD
+410,CPD-Other,Other Police,CPD,,410,CPD
+109,CPD-Other,Other Police,CPD,,109,CPD
+TEST,CPD-Other,Other Police,CPD,,TEST,CPD
+899,Miscellaneous,McCormick Place,Miscellaneous/Other,,899,Other
+900,Miscellaneous,Homeland Security,Miscellaneous/Other,,900,Other
+714,CPD-Other,Summer Bike Patrol,CPD,,714,CPD
+9999,Miscellaneous,Miscellaneous,Miscellaneous/Other,,9999,Other
+1111,Miscellaneous,Miscellaneous,Miscellaneous/Other,,1111,Other
