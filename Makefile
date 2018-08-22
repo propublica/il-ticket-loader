@@ -124,7 +124,7 @@ data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.tx
 data/processed/parking_tickets.csv :
 	psql $(ILTICKETS_DB_URL) -c "\copy parking TO '$(CURDIR)/$@' with (delimiter ',', format csv, header);"
 
-data/processed/parking_tickets.zip : data/processed/parking_tickets.csv
+data/processed/parking_tickets.zip : data/unit_key.csv data/processed/parking_tickets.csv
 	zip $@ $^
 
 upload_zip : data/processed/parking_tickets.zip
