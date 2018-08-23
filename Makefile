@@ -3,11 +3,11 @@ TABLES = parking cameras geocodes community_area_stats
 VIEWS = community_area_city_stickers geocode_accuracy
 DATADIRS = analysis cameras geodata parking processed
 
-.PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras
+.PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
 .INTERMEDIATE: processors/salt.txt
 
 all: processors/salt.txt bootstrap geo parking indexes views analysis
-clean: drop_db $(patsubst %, clean_%, $(DATADIRS))
+clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 bootstrap : create_db tables schema
 geo: load_geocodes load_geodata_community_area_stats load_community_areas clean_community_areas
@@ -22,6 +22,8 @@ load: cameras parking
 
 download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(YEARS))
 download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(YEARS))
+
+zip_n_ship : upload_zip
 
 
 define check_database
@@ -118,6 +120,15 @@ data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.tx
 data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt
 	python processors/clean_csv.py $< > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
 
+
+data/processed/parking_tickets.csv :
+	psql $(ILTICKETS_DB_URL) -c "\copy parking TO '$(CURDIR)/$@' with (delimiter ',', format csv, header);"
+
+data/processed/parking_tickets.zip : data/unit_key.csv data/processed/parking_tickets.csv
+	zip $@ $^
+
+upload_zip : data/processed/parking_tickets.zip
+	aws s3 cp $^ s3://data-publica/il_parking_tickets_20180822.zip
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	$(check_tmp_parking_relation) psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.parking WITH NO DATA;"
