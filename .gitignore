@@ -3,3 +3,6 @@ data/
 dupes/
 env/
 Ticket data/
+__pycache__/
+il-ticket-loader/
+processors/salt.txt
