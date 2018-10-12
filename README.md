@@ -4,7 +4,8 @@
 
 * GNU make
 * Python 3
-* PostgreSQL
+* GDAL
+* PostgreSQL + PostGIS
 * ProPublica Illinois S3 bucket credentials
 
 Run `pip install -r requirements.txt` to install Python dependencies.
@@ -41,10 +42,18 @@ make all
 Fast version:
 
 ```
-make bootstrap geo && make -j 8 parking && make indexes views analysis
+make bootstrap geo && make -j 8 parking && make views
 ```
 
 Set `-j N` to reflect the number of processors available on your system.
+
+### Making views
+
+There are several derived tables. These must be run in order:
+
+1. `blocksummary_intermediate`: An intermediate table summarizing parking tickets by block.
+1. `blocksummary_yearly`: Counts by year, ticket type, and geocoded block.
+1. `blocksummary_total`: Total counts by geocoded block.
 
 ### Reset the database
 
