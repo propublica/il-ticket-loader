@@ -20,6 +20,8 @@ CREATE TABLE public.parking (
   notice_level character varying,
   hearing_disposition character varying,
   notice_number bigint,
+  dismissal_reason character varying(128),
   officer character varying,
-  address character varying
+  address character varying(80),
+  license_hash character varying
 );
