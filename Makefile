@@ -2,7 +2,7 @@
 YEARS = 2014 2015 2016 2017
 DATATABLES = parking cameras
 GEOTABLES = communityareas wards2015
-VIEWS = blocksummary_intermediate blocksummary_total blocksummary_yearly
+VIEWS = blocksummary_intermediate blocksummary_yearly blocksummary_total
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
