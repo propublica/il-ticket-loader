@@ -38,22 +38,30 @@ def hash_plates(row, salt):
     plate = row[3]
     to_hash = (plate + salt).encode('utf-8')
     hash.update(to_hash)
-    row[3]= hash.hexdigest()
+    row.append(hash.hexdigest())
     return row
 
 
 def clean(data_filename, salt_filename):
+    addcol = False  # Some source files have "reason for dismissmal" column
     with open(salt_filename, 'r') as f:
         salt = f.read()
     writer = csv.writer(sys.stdout, quoting=csv.QUOTE_ALL)
     with open(data_filename) as f:
-        reader = csv.reader(f, delimiter="$", quotechar='"')
+        reader = csv.reader((line.replace('\0','') for line in f), delimiter="$", quotechar='"')
         headers = next(reader)
+        if 'Reason for Dismissal' not in headers:
+            headers = headers[:-1] + ['Reason for Dismissal'] + headers[-1:]
+            addcol = True
+        headers.append('address')
+        headers.append('license_hash')
         writer.writerow(headers)
 
         for row in reader:
             try:
                 row = clean_commas(row)
+                if addcol:
+                    row = row[:-1] + [''] + row[-1:]
                 row = clean_location(row)
                 row = hash_plates(row, salt)
                 writer.writerow(row)
