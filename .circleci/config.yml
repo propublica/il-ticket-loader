@@ -29,7 +29,10 @@ jobs:
 
       - run:
           name: Install system dependencies
-          command: sudo apt-get install postgresql-client
+          command: |
+            sudo apt-get update
+            sudo apt-get upgrade
+            sudo apt-get install postgresql-client
 
       - run:
           name: Install python dependencies
