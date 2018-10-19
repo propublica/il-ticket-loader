@@ -28,9 +28,12 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: Install dependencies
+          name: Install system dependencies
+          command: sudo apt-get install postgresql-client
+
+      - run:
+          name: Install python dependencies
           command: |
-            sudo apt-get install postgresql-client
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
