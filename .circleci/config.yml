@@ -28,8 +28,9 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
+            sudo apt-get install postgresql-client
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
@@ -38,6 +39,10 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
           name: run make
