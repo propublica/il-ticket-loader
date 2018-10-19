@@ -3,7 +3,7 @@ import re
 import sys
 from Crypto.Hash import SHA256
 
-block_re = re.compile(r"(\d*)(\d{2})(\s)", re.IGNORECASE)
+block_re = re.compile(r"0*(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
 
 
