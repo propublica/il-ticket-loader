@@ -17,6 +17,12 @@ jobs:
 
     working_directory: ~/repo
 
+    environment:
+        ILTICKETS_DB_URL: postgres://circleci:@localhost/iltickets
+        ILTICKETS_DB_ROOT_URL: postgres://circleci:@localhost
+        ILTICKETS_DB_NAME: iltickets
+        ILTICKETS_DB_STRING: "dbname=iltickets dbuser=circleci"
+
     steps:
       - checkout
 
@@ -51,13 +57,11 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: run make
-          command: |
-            . env/dev.sh
-            make YEARS=2018 all
+          name: Run make
+          command: make YEARS=2018 all
 
       - run:
-          name: run tests
+          name: Run tests
           command: |
             . venv/bin/activate
             pytest .
