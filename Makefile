@@ -1,20 +1,19 @@
-#YEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
-YEARS = 2014 2015 2016 2017
+YEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking cameras
 GEOTABLES = communityareas wards2015
-VIEWS = blocksummary_intermediate blocksummary_yearly blocksummary_total
+VIEWS = geocodes blocksummary_intermediate blocksummary_yearly blocksummary_total
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo parking views
+all: bootstrap geo parking address_indexes views
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 bootstrap : create_db tables schema
-geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
+geo: load_geocodes geocodes_primary_key $(patsubst %, load_geodata_%, $(GEOTABLES))
 tables : $(patsubst %, table_%, $(DATATABLES))
-indexes : $(patsubst %, index_%, $(DATATABLES)) primary_key_geocodes
+address_indexes : $(patsubst %, address_index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 analysis : $(patsubst %, data/analysis/%.csv, $(VIEWS))
 
@@ -61,14 +60,6 @@ view_% : sql/views/%.sql
 	psql $(ILTICKETS_DB_URL) -f $<
 
 
-index_% :
-	$(check_public_relation) psql $(ILTICKETS_DB_URL) -c "create index on $* using hash (address);"
-
-
-primary_key_geocodes :
-	psql $(ILTICKETS_DB_URL) -c "alter table geocodes add primary key (id)";
-
-
 schema :
 	psql $(ILTICKETS_DB_URL) -c "CREATE SCHEMA tmp;"
 
@@ -103,7 +94,15 @@ data/dumps/geocodes-city-stickers.dump :
 
 load_geocodes : data/dumps/geocodes-city-stickers.dump table_geocodes
 	pg_restore -d "$(ILTICKETS_DB_URL)" --no-acl --no-owner --clean -t geocodes data/dumps/geocodes-city-stickers.dump
-	#psql $(ILTICKETS_DB_URL) -c "delete from geocodes g1 using geocodes g2 where g1.id > g2.id and g1.geocoded_address = g2.geocoded_address;"
+	psql $(ILTICKETS_DB_URL) -c "alter table geocodes rename to raw_geocodes"
+
+
+geocodes_primary_key :
+	psql $(ILTICKETS_DB_URL) -c "alter table raw_geocodes add primary key (id)";
+
+
+address_index_% :
+	$(check_public_relation) psql $(ILTICKETS_DB_URL) -c "create index on $* using hash (address);"
 
 
 .PRECIOUS: processors/salt.txt
