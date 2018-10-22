@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: mdillion/postgis:10
+      - image: mdillon/postgis:10
         environment:
           POSTGRES_USER: circleci
           POSTGRES_DB: iltickets
