@@ -2,7 +2,6 @@ create table if not exists blocksummary_intermediate as
   SELECT
       p.address,
       p.violation_code,
-      p.violation_description,
       extract(year from p.issue_date) as year,
       count(ticket_number) AS ticket_count,
       sum(p.current_amount_due) AS amount_due,
@@ -10,7 +9,7 @@ create table if not exists blocksummary_intermediate as
       sum(p.fine_level2_amount) AS fine_level2_amount,
       sum(p.total_payments) AS total_payments
      FROM parking p
-    GROUP BY p.address, p.violation_code, p.violation_description, year
-    ORDER BY (count(ticket_number)) DESC;
+    GROUP BY p.address, p.violation_code, year
+;
 
 create index on blocksummary_intermediate (address);
