@@ -16,7 +16,7 @@ jobs:
       - image: circleci/postgres:10.5
         environment:
           POSTGRES_USER: circleci
-          POSTGRES_DB: circleci
+          POSTGRES_DB: iltickets
 
     working_directory: ~/repo
 
