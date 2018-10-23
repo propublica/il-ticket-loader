@@ -5,6 +5,7 @@ from Crypto.Hash import SHA256
 
 block_re = re.compile(r"0*(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
+hash = SHA256.new()
 
 
 def clean_commas(row):
@@ -34,7 +35,6 @@ def clean_address(address):
 
 
 def hash_plates(row, salt):
-    hash = SHA256.new()
     plate = row[3]
     to_hash = (plate + salt).encode('utf-8')
     hash.update(to_hash)
