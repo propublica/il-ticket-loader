@@ -2,7 +2,7 @@ create table if not exists blocksummary_intermediate as
   SELECT
       p.address,
       p.violation_code,
-      extract(year from p.issue_date) as year,
+      p.year as year,
       count(ticket_number) AS ticket_count,
       sum(p.current_amount_due) AS amount_due,
       sum(p.fine_level1_amount) AS fine_level1_amount,
