@@ -1,7 +1,7 @@
 YEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking
 GEOTABLES = communityareas wards2015
-VIEWS = geocodes blocksummary_intermediate blocksummary_yearly blocksummary_total
+VIEWS = geocodes_normalized blocksummary_intermediate blocksummary_yearly blocksummary_total
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
@@ -11,7 +11,7 @@ all: bootstrap geo parking indexes views
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 bootstrap : create_db tables schema
-geo: load_geocodes view_geocodes_normalized $(patsubst %, load_geodata_%, $(GEOTABLES))
+geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
 tables : $(patsubst %, table_%, $(DATATABLES))
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))

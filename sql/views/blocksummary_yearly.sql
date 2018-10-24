@@ -11,9 +11,9 @@ as
       sum(b.total_payments) AS total_payments
     FROM blocksummary_intermediate b
     JOIN
-      raw_geocodes r ON b.address = r.address
+      geocodes r ON b.address = r.address
     JOIN
-      geocodes g on r.address = g.address
+      geocodes_normalized g on r.address = g.address
     WHERE g.geocoded_address is not null
     GROUP BY g.geocoded_address, b.year, b.violation_code
     ORDER BY (sum(b.ticket_count)) DESC
