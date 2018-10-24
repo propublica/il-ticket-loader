@@ -42,18 +42,10 @@ make all
 Fast version:
 
 ```
-make bootstrap geo && make -j 8 parking && make views
+make bootstrap geo && make -j 8 parking && make indexes views
 ```
 
 Set `-j N` to reflect the number of processors available on your system.
-
-### Making views
-
-There are several derived tables. These must be run in order:
-
-1. `blocksummary_intermediate`: An intermediate table summarizing parking tickets by block.
-1. `blocksummary_yearly`: Counts by year, ticket type, and geocoded block.
-1. `blocksummary_total`: Total counts by geocoded block.
 
 ### Reset the database
 
@@ -69,40 +61,63 @@ make drop_db
 make download
 ```
 
-### Load into DB
-
-```
-make load
-```
-
-Or:
-
-```
-make load_parking
-make load_cameras
-```
-
 ### Remove files
 
-*Not implemented. You must do this manually.*
+To clean out one of the subdirectories in the data directory:
 
-## Error handling
+```
+make clean_<subdirectory>
+```
+
+E.g. `make clean_processed` or `make clean_geodata`.
+
+### Error handling
 
 Bad CSV rows are written to `data/processed/<FILENAME>_err.csv`. These should only ever be the final "total" line from each file.
 
-## Duplicate handling
+## Working with data
 
-To load, we first load the data into a `tmp` PostgreSQL schema (we can't use "real" temporary tables because of some limitations with how RDS handles the copy command, so to keep things portable use just use schemas).
+### Key tables
 
-We then copy from the `tmp` schema to the `public` schema, ignoring duplicates. We currently keep the existing record and throw out the old one (`ON CONFLICT DO NOTHING`) but could replace.
+* `parking`: Raw parking ticket data
+* `communityareas`: Chicago Community Area geographic data
+* `wards2015`: Chicago Aldermanic Ward geographic data
+* `geocodes`: Data from original geocoding run. **Use
+  `geocodes_normalized` for most queries.**
+* `geocodes_normalized`: De-duplicated version of `geocodes` table. Join
+  against this table.
+* `blocksummary_intermediate`: Intermediate table. **Do not use this
+  table.**
+* `blocksummary_yearly`: Financial data grouped by block, violation
+  code, and year.
+* `blocksummary_total`: This may not be useful now that the database is
+  quite fast; sums the years from `block_summary_yearly`, reducing one
+grouping level.
 
-Dupes are written to the `dupes` directory as CSVs for each year where dupes were found.
+### Useful query patterns
 
-## Notes
+Join with ward data:
 
-* `sql/tables/community_area_stats.sql` was generated with CSVKit's `csvsql` command like so:  `csvsql data/geodate/community_area_stats.csv > sql/tables/community_area_stats.sql`
+```
+select
+	g.geocoded_address,
+	w.ward,
+	b.year,
+	b.violation_code,
+	b.amount_due,
+	b.fine_level1_amount,
+	b.total_payments
+from
+	blocksummary_yearly b
+join
+	geocodes_normalized g on b.geocoded_address = g.geocoded_address
+join
+	wards2015 w on st_within(g.geom, w.wkb_geometry)
+where
+	b.year > 2012
+```
 
-## Data Dictionary
+## Data dictionary
 
 The City of Chicago has told us that an official data dictionary does not exist. But through interviews with finance department officials and other reporting, this is how we can best describe the data contained in these records:
 • `ticket_number`: a unique ID for each citation
