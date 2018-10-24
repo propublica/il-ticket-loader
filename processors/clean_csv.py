@@ -5,6 +5,7 @@ from Crypto.Hash import SHA256
 
 block_re = re.compile(r"0*(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
+hash = SHA256.new()
 
 
 def clean_commas(row):
@@ -34,11 +35,20 @@ def clean_address(address):
 
 
 def hash_plates(row, salt):
-    hash = SHA256.new()
     plate = row[3]
     to_hash = (plate + salt).encode('utf-8')
     hash.update(to_hash)
     row.append(hash.hexdigest())
+    return row
+
+
+def extract_year(row):
+    row.append(int(row[1][6:10]))
+    return row
+
+
+def extract_month(row):
+    row.append(int(row[1][:2]))
     return row
 
 
@@ -50,11 +60,12 @@ def clean(data_filename, salt_filename):
     with open(data_filename) as f:
         reader = csv.reader((line.replace('\0','') for line in f), delimiter="$", quotechar='"')
         headers = next(reader)
+
+        # 1996-2006 have this field, newer records do not
         if 'Reason for Dismissal' not in headers:
             headers = headers[:-1] + ['Reason for Dismissal'] + headers[-1:]
             addcol = True
-        headers.append('address')
-        headers.append('license_hash')
+        headers += ['address', 'license_hash', 'year', 'month']
         writer.writerow(headers)
 
         for row in reader:
@@ -64,6 +75,8 @@ def clean(data_filename, salt_filename):
                     row = row[:-1] + [''] + row[-1:]
                 row = clean_location(row)
                 row = hash_plates(row, salt)
+                row = extract_year(row)
+                row = extract_month(row)
                 writer.writerow(row)
             except IndexError:
                 print(row, file=sys.stderr)

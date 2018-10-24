@@ -6,7 +6,7 @@ CREATE TABLE public.parking (
   license_plate_state character varying,
   license_plate_type character varying,
   zipcode character varying,
-  violation_code character varying,
+  violation_code character varying(12),
   violation_description character varying,
   unit character varying,
   unit_description character varying,
@@ -23,5 +23,7 @@ CREATE TABLE public.parking (
   dismissal_reason character varying(128),
   officer character varying,
   address character varying(80),
-  license_hash character varying
+  license_hash character varying,
+  year int,
+  month int
 );
