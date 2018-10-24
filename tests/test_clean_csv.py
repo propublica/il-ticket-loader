@@ -19,6 +19,13 @@ TEST_BAD_ROWS = [
 ]
 
 
+# (input, (month, year))
+TEST_DATES = [
+    ('03/05/2005 09:05 pm', (3, 2005)),
+    ('06/25/1999 04:00 pm', (6, 1999)),
+    ('10/02/2011 03:18 pm', (10, 2011)),
+]
+
 @pytest.mark.parametrize("input,expected", TEST_ADDRESSES)
 def test_clean_address(input, expected):
     assert clean_csv.clean_address(input) == expected
@@ -29,3 +36,14 @@ def test_clean_row(row):
     clean_row = clean_csv.clean_commas(row)
     assert len(clean_row) == len(row) + 1
 
+
+@pytest.mark.parametrize("input,expected", TEST_DATES)
+def test_extract_month(input, expected):
+    month = clean_csv.extract_month(input)
+    assert month == expected[0]
+
+
+@pytest.mark.parametrize("input,expected", TEST_DATES)
+def test_extract_year(input, expected):
+    month = clean_csv.extract_year(input)
+    assert month == expected[1]
