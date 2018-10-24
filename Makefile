@@ -11,7 +11,7 @@ all: bootstrap geo parking indexes views
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 bootstrap : create_db tables schema
-geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
+geo: load_geocodes view_geocodes_normalized $(patsubst %, load_geodata_%, $(GEOTABLES))
 tables : $(patsubst %, table_%, $(DATATABLES))
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
@@ -55,7 +55,7 @@ table_% : sql/tables/%.sql
 
 
 view_% : sql/views/%.sql
-	psql $(ILTICKETS_DB_URL) -f $<
+	$(check_public_relation) || psql $(ILTICKETS_DB_URL) -f $<
 
 
 index_% : sql/indexes/%.sql
@@ -79,7 +79,7 @@ data/geodata/wards2015.json :
 
 
 load_geodata_% : data/geodata/%.json
-	ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/$*.json" -nln $* -overwrite
+	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/$*.json" -nln $* -overwrite
 
 
 data/parking/A50951_PARK_Year_%.txt :
@@ -94,10 +94,10 @@ data/dumps/geocodes-city-stickers.dump :
 	aws s3 cp s3://data.il.propublica.org/il-tickets/dumps/geocodes-city-stickers.dump data/dumps/geocodes-city-stickers.dump
 
 
-load_geocodes : data/dumps/geocodes-city-stickers.dump table_geocodes
-	psql $(ILTICKETS_DB_URL) -c "\d public.raw_geocodes" > /dev/null 2>&1 || \
-	pg_restore -d "$(ILTICKETS_DB_URL)" --no-acl --no-owner --clean -t geocodes data/dumps/geocodes-city-stickers.dump && \
- 	psql $(ILTICKETS_DB_URL) -c "alter table if exists geocodes rename to raw_geocodes"
+load_geocodes : data/dumps/geocodes-city-stickers.dump
+	psql $(ILTICKETS_DB_URL) -c "\d public.geocodes" > /dev/null 2>&1 || \
+	(psql $(ILTICKETS_DB_URL) -f sql/tables/geocodes.sql && \
+	pg_restore -d "$(ILTICKETS_DB_URL)" --no-acl --no-owner --clean -t geocodes data/dumps/geocodes-city-stickers.dump)
 
 
 .PRECIOUS: processors/salt.txt
