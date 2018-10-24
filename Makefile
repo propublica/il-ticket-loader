@@ -140,9 +140,5 @@ dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
 	touch $@
 
 
-vacuum :
-	psql $(ILTICKETS_DB_URL) -c "VACUUM FULL;"
-
-
 clean_% :
 	rm -Rf data/$*/*
