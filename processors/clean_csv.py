@@ -5,10 +5,12 @@ from Crypto.Hash import SHA256
 
 block_re = re.compile(r"0*(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
-hash = SHA256.new()
 
 
 def clean_commas(row):
+    """
+    Handle unquoted commas in fields from CANVAS.
+    """
     if row[8].startswith('WINDOWS MISSING OR CRACKED BEYOND') or row[8].startswith('SUSPENSION MODIFIED BEYOND'):
         fixed_cols = row[8].replace('"', '').split('$')
         row = row[:8] + fixed_cols + row[9:]
@@ -16,6 +18,9 @@ def clean_commas(row):
 
 
 def clean_location(row):
+    """
+    Clean up a parking address for geocoding by adding the Chicago, IL stuff to the end.
+    """
     address = "{2}, Chicago, IL".format(*row)
     address = clean_address(address)
     row.append(address.strip())
@@ -35,6 +40,10 @@ def clean_address(address):
 
 
 def hash_plates(row, salt):
+    """
+    Hash license plate number, with salt.
+    """
+    hash = SHA256.new()
     plate = row[3]
     to_hash = (plate + salt).encode('utf-8')
     hash.update(to_hash)
@@ -42,17 +51,40 @@ def hash_plates(row, salt):
     return row
 
 
-def extract_year(row):
-    row.append(int(row[1][6:10]))
+def extract_year(datestring):
+    """
+    Return year part of date string as integer.
+    """
+    return int(datestring[6:10])
+
+
+def extract_month(datestring):
+    """
+    Return month part of date string as integer.
+    """
+    return int(datestring[:2])
+
+
+def add_year(row):
+    """
+    Add year to row.
+    """
+    row.append(extract_year(row[1]))
     return row
 
 
-def extract_month(row):
-    row.append(int(row[1][:2]))
+def add_month(row):
+    """
+    Add month to row.
+    """
+    row.append(extract_month(row[1]))
     return row
 
 
 def clean(data_filename, salt_filename):
+    """
+    Clean up parking CSV.
+    """
     addcol = False  # Some source files have "reason for dismissmal" column
     with open(salt_filename, 'r') as f:
         salt = f.read()
@@ -75,8 +107,8 @@ def clean(data_filename, salt_filename):
                     row = row[:-1] + [''] + row[-1:]
                 row = clean_location(row)
                 row = hash_plates(row, salt)
-                row = extract_year(row)
-                row = extract_month(row)
+                row = add_year(row)
+                row = add_month(row)
                 writer.writerow(row)
             except IndexError:
                 print(row, file=sys.stderr)
