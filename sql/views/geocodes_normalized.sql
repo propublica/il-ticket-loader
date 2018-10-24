@@ -10,7 +10,8 @@ create table if not exists geocodes_normalized as
     case
      when split_part(geocoded_address, ' ', 2) not in ('N', 'E', 'S', 'W') then null
      else split_part(geocoded_address, ' ', 2)
-    end as cardinal_direction
+    end as cardinal_direction,
+    geom
   from geocodes
   order by geocoded_address, id;
 
