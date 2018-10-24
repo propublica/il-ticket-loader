@@ -46,7 +46,7 @@ endef
 
 
 create_db :
-	$(check_database) || psql $(ILTICKETS_DB_ROOT_URL) -c "create database $(ILTICKETS_DB_NAME)" && \
+	$(check_database) || psql $(ILTICKETS_DB_ROOT_URL) -c "create database $(ILTICKETS_DB_NAME) lc_collate \"C\" lc_ctype \"C\" template template0" && \
 	psql $(ILTICKETS_DB_URL) -c "CREATE EXTENSION IF NOT EXISTS postgis;"
 
 
