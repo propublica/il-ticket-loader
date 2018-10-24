@@ -129,7 +129,7 @@ dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_parking_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
 	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.parking SELECT * FROM tmp.tmp_table_parking_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_parking_$*;"
-	touch $<
+	touch $@
 
 
 dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
@@ -137,7 +137,8 @@ dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
 	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_cameras_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
 	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.cameras SELECT * FROM tmp.tmp_table_cameras_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_cameras_$*;"
-	touch $<
+	touch $@
+
 
 vacuum :
 	psql $(ILTICKETS_DB_URL) -c "VACUUM FULL;"
