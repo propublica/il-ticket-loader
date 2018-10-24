@@ -62,7 +62,7 @@ def extract_month(datestring):
     """
     Return month part of date string as integer.
     """
-    return int(row[1][:2])
+    return int(datestring[:2])
 
 
 def add_year(row):
@@ -77,7 +77,7 @@ def add_month(row):
     """
     Add month to row.
     """
-    row.append(extract_month(datestring))
+    row.append(extract_month(row[1]))
     return row
 
 
