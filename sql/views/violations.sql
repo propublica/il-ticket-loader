@@ -6,4 +6,4 @@ create table violations as
   from parking
 ;
 
-create index if not exists on violations (violation_code);
+create index on violations (violation_code);
