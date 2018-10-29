@@ -77,45 +77,16 @@ Bad CSV rows are written to `data/processed/<FILENAME>_err.csv`. These should on
 
 ## Working with data
 
-### Key tables
+### Tables
 
 * `parking`: Raw parking ticket data
 * `communityareas`: Chicago Community Area geographic data
 * `wards2015`: Chicago Aldermanic Ward geographic data
-* `geocodes`: Data from original geocoding run. **Use
-  `geocodes_normalized` for most queries.**
-* `geocodes_normalized`: De-duplicated version of `geocodes` table. Join
+* `geocodes`: Data from original geocoding run. **Use `blocks` for most queries.**
+* `geocodes`: De-duplicated version of `geocodes` table, enhanced with additional fields: cardinal direction, zipcode, and geographies this block is part of (currently just wards). Join through this table (see below).
   against this table.
-* `blocksummary_intermediate`: Intermediate table. **Do not use this
-  table.**
-* `blocksummary_yearly`: Financial data grouped by block, violation
-  code, and year.
-* `blocksummary_total`: This may not be useful now that the database is
-  quite fast; sums the years from `block_summary_yearly`, reducing one
-grouping level.
-
-### Useful query patterns
-
-Join with ward data:
-
-```
-select
-	g.geocoded_address,
-	w.ward,
-	b.year,
-	b.violation_code,
-	b.amount_due,
-	b.fine_level1_amount,
-	b.total_payments
-from
-	blocksummary_yearly b
-join
-	geocodes_normalized g on b.geocoded_address = g.geocoded_address
-join
-	wards2015 w on st_within(g.geom, w.wkb_geometry)
-where
-	b.year > 2012
-```
+* `wardsyearly`: Counts and sums of block tickets, fees, and debt, aggregated to the ward level. Grouped by year, violation code, ticket queue, hearing disposition, unit description, and notice level.
+* `blocksyearly`: Counts and sums of block tickets, fees, and debt. Grouped by year, violation code, ticket queue, hearing disposition, unit description, and notice level.
 
 ## Data dictionary
 
