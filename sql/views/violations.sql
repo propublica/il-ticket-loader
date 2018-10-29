@@ -5,3 +5,5 @@ create table violations as
       trim(violation_description) as violation_description
   from parking
 ;
+
+create index if not exists on violations (violation_code);
