@@ -1,5 +1,6 @@
 YEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking
+METADATA = wardmeta
 GEOTABLES = communityareas wards2015
 VIEWS = violations blocks blocksyearly wardsyearly
 DATADIRS = analysis cameras geodata parking processed
@@ -7,14 +8,15 @@ DATADIRS = analysis cameras geodata parking processed
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo parking indexes views
+all: bootstrap geo parking meta indexes views
 clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 bootstrap : create_db tables schema
 geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
-tables : $(patsubst %, table_%, $(DATATABLES))
+tables : $(patsubst %, table_%, $(DATATABLES)) $(patsubst %, table_%, $(METADATA))
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
+meta : $(patsubst %, load_meta_%, $(METADATA))
 
 parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(YEARS))
@@ -78,6 +80,10 @@ data/geodata/wards2015.json :
 	curl "https://data.cityofchicago.org/api/geospatial/sp34-6z76?method=export&format=GeoJSON" > $@
 
 
+data/metadata/wardmeta.csv :
+	curl "https://data.cityofchicago.org/api/views/htai-wnw4/rows.csv?accessType=DOWNLOAD" > $@
+
+
 load_geodata_% : data/geodata/%.json
 	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/$*.json" -nln $* -overwrite
 
@@ -118,11 +124,14 @@ data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.tx
 data/processed/parking_tickets.csv :
 	psql $(ILTICKETS_DB_URL) -c "\copy parking TO '$(CURDIR)/$@' with (delimiter ',', format csv, header);"
 
+
 data/processed/parking_tickets.zip : data/data_dictionary.txt data/unit_key.csv data/processed/parking_tickets.csv
 	zip $@ $^
 
+
 upload_zip : data/processed/parking_tickets.zip
 	aws s3 cp $^ s3://data-publica/il_parking_tickets_20180822.zip
+
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	$(check_tmp_parking_relation) || psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.parking WITH NO DATA;"
@@ -138,6 +147,10 @@ dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
 	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.cameras SELECT * FROM tmp.tmp_table_cameras_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_cameras_$*;"
 	touch $@
+
+
+load_meta_% : data/metadata/%.csv
+	$(check_public_relation) && psql $(ILTICKETS_DB_URL) -c "\copy $* from '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
 
 
 clean_% :
