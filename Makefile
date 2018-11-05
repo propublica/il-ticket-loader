@@ -1,4 +1,5 @@
-YEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+PARKINGYEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+CAMERAYEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking
 METADATA = wardmeta
 GEOTABLES = communityareas wards2015
@@ -8,7 +9,7 @@ DATADIRS = analysis cameras geodata parking processed
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo parking meta indexes views
+all: bootstrap geo parking cameras meta indexes views
 
 bootstrap : create_db tables schema
 geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
@@ -17,11 +18,11 @@ indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 meta : $(patsubst %, load_meta_%, $(METADATA))
 
-parking : $(patsubst %, dupes/parking-%.csv, $(YEARS))
-cameras : $(patsubst %, dupes/cameras-%.csv, $(YEARS))
+parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
+cameras : $(patsubst %, dupes/cameras-%.csv, $(CAMERAYEARS))
 
-download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(YEARS))
-download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(YEARS))
+download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
+download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
 
 zip_n_ship : processors/salt.txt upload_zip
 
@@ -121,11 +122,6 @@ data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.tx
 	python processors/clean_csv.py $^ > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
 
-.PRECIOUS: data/processed/A50951_AUCM_Year_%_clean.csv
-data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt
-	python processors/clean_csv.py $< > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
-
-
 data/processed/parking_tickets.csv :
 	psql $(ILTICKETS_DB_URL) -c "\copy parking TO '$(CURDIR)/$@' with (delimiter ',', format csv, header);"
 
@@ -146,9 +142,9 @@ dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	touch $@
 
 
-dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
+dupes/cameras-%.csv : data/cameras/A50951_AUCM_Year_%.txt
 	$(check_tmp_cameras_relation) || psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_cameras_$* AS SELECT * FROM public.cameras WITH NO DATA;"
-	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_cameras_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
+	sed \$$d $< | psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_cameras_$* FROM STDIN with (delimiter '$$', format csv, header);"
 	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.cameras SELECT * FROM tmp.tmp_table_cameras_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_cameras_$*;"
 	touch $@
