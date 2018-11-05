@@ -19,6 +19,15 @@ TEST_BAD_ROWS = [
 ]
 
 
+TEST_PENALTY_ROWS = [
+    (['60607661', '01/03/2012 12:39 pm', '4400 N PULASKI', 'P230623', 'IL', 'PAS', '60609', '0964125', 'NO CITY STICKER OR IMPROPER DISPLAY', '501', 'Miscellaneous', 'JEEP', '120', '240', '292.8', '0', 'Notice', '02/09/2012', 'DLS', '', '5122261100', '83'], 172.8),
+    (['58864340', '01/03/2012 12:39 pm', '5951 W COURTLAND', 'A783051', 'IL', 'PAS', '606342633', '0976160F', 'EXPIRED PLATES OR TEMPORARY REGISTRATION', '23', 'CPD', 'GEO', '50', '100', '0', '122', 'Paid', '05/13/2015', 'SEIZ', '', '5145682080', '4112'], 72),
+    (['9181812288', '01/03/2012 12:29 pm', '3141 N LINCOLN AV', '3417204', 'IL', 'PAS', '', '0964190', 'EXPIRED METER OR OVERSTAY', '498', 'DOF', 'FORD', '50', '100', '0', '50', 'Paid', '01/10/2012', '', '', '0', '746'], 0),
+    (['60355378', '01/01/2012 03:07 am', '211 W DIVISION', 'K635156', 'IL', 'PAS', '600761720', '0964060', '3-7 AM SNOW ROUTE', '18', 'CPD', 'NISS', '60', '120', '-60', '120', 'Paid', '02/21/2012', 'DETR', '', '5146624670', '7013'], None),
+    (['57592040', '01/01/2012 12:02 am', '100 N LAKESHORE DR', '184199', 'IL', 'OTH', '', '0964150B', 'PARKING/STANDING PROHIBITED ANYTIME', '145', 'CPD-Other', 'HOND', '60', '120', '0', '0', 'Dismissed', '04/01/2012', '', '', '0', '1568'], None),
+]
+
+
 # (input, (month, year))
 TEST_DATES = [
     ('03/05/2005 09:05 pm', (3, 2005)),
@@ -33,7 +42,7 @@ def test_clean_address(input, expected):
 
 @pytest.mark.parametrize("row", TEST_BAD_ROWS)
 def test_clean_row(row):
-    clean_row = clean_csv.clean_commas(row)
+    clean_row = clean_csv.clean_quotes(row)
     assert len(clean_row) == len(row) + 1
 
 
@@ -47,3 +56,8 @@ def test_extract_month(input, expected):
 def test_extract_year(input, expected):
     month = clean_csv.extract_year(input)
     assert month == expected[1]
+
+@pytest.mark.parametrize("input,expected", TEST_PENALTY_ROWS)
+def test_penalty(input, expected):
+    penalty = clean_csv.calculate_penalty(input)
+    assert penalty == expected

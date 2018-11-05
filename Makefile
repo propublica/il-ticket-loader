@@ -2,14 +2,13 @@ YEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 20
 DATATABLES = parking
 METADATA = wardmeta
 GEOTABLES = communityareas wards2015
-VIEWS = violations blocks blocksyearly wardsyearly
+VIEWS = violations blocks blockstotals wardsyearly wardstotals
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
 .INTERMEDIATE: processors/salt.txt
 
 all: bootstrap geo parking meta indexes views
-clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 bootstrap : create_db tables schema
 geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
@@ -26,6 +25,8 @@ download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(YEARS))
 
 zip_n_ship : processors/salt.txt upload_zip
 
+drop_views: $(patsubst %, drop_view_%, $(VIEWS))
+clean: drop_db $(patsubst %, clean_%, $(DATADIRS)) processors/salt.txt
 
 define check_database
  psql $(ILTICKETS_DB_URL) -c "select 1;" > /dev/null 2>&1
@@ -70,6 +71,10 @@ schema :
 
 drop_db :
 	psql $(ILTICKETS_DB_ROOT_URL) -c "drop database $(ILTICKETS_DB_NAME);" && rm -f dupes/*
+
+
+drop_view_% :
+	psql $(ILTICKETS_DB_URL) -c "drop table $*;"
 
 
 data/geodata/communityareas.json :
@@ -135,7 +140,7 @@ upload_zip : data/processed/parking_tickets.zip
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	$(check_tmp_parking_relation) || psql $(ILTICKETS_DB_URL) -c "CREATE TABLE tmp.tmp_table_parking_$* AS SELECT * FROM public.parking WITH NO DATA;"
-	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_parking_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
+	psql $(ILTICKETS_DB_URL) -c "\copy tmp.tmp_table_parking_$* FROM '$(CURDIR)/$<' with (delimiter ',', format csv, header, force_null(penalty));"
 	psql $(ILTICKETS_DB_URL) -c "INSERT INTO public.parking SELECT * FROM tmp.tmp_table_parking_$* ON CONFLICT DO NOTHING;"
 	psql $(ILTICKETS_DB_URL) -c	"DROP TABLE tmp.tmp_table_parking_$*;"
 	touch $@
