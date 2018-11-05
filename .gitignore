@@ -6,3 +6,4 @@ Ticket data/
 __pycache__/
 il-ticket-loader/
 processors/salt.txt
+env/mapbox.sh
