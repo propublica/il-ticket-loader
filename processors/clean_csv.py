@@ -7,9 +7,9 @@ block_re = re.compile(r"0*(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
 
 
-def clean_commas(row):
+def clean_quotes(row):
     """
-    Handle unquoted commas in fields from CANVAS.
+    Handle unquoted quotes in fields from CANVAS.
     """
     if row[8].startswith('WINDOWS MISSING OR CRACKED BEYOND') or row[8].startswith('SUSPENSION MODIFIED BEYOND'):
         fixed_cols = row[8].replace('"', '').split('$')
@@ -65,6 +65,20 @@ def extract_month(datestring):
     return int(datestring[:2])
 
 
+def calculate_penalty(row):
+    """
+    Calculate penalty as `(current_amount_due + total_paid) - fine_level1_amount`
+    """
+    if float(row[14]) < 0:
+        penalty = None
+    elif row[16] != 'Dismissed':
+        penalty = (float(row[14]) + float(row[15])) - float(row[12])
+    else:
+        penalty = None
+
+    return penalty
+
+
 def add_year(row):
     """
     Add year to row.
@@ -78,6 +92,14 @@ def add_month(row):
     Add month to row.
     """
     row.append(extract_month(row[1]))
+    return row
+
+
+def add_penalty(row):
+    """
+    Add penalty to row.
+    """
+    row.append(calculate_penalty(row))
     return row
 
 
@@ -97,18 +119,19 @@ def clean(data_filename, salt_filename):
         if 'Reason for Dismissal' not in headers:
             headers = headers[:-1] + ['Reason for Dismissal'] + headers[-1:]
             addcol = True
-        headers += ['address', 'license_hash', 'year', 'month']
+        headers += ['address', 'license_hash', 'year', 'month', 'penalty']
         writer.writerow(headers)
 
         for row in reader:
             try:
-                row = clean_commas(row)
+                row = clean_quotes(row)
                 if addcol:
                     row = row[:-1] + [''] + row[-1:]
                 row = clean_location(row)
                 row = hash_plates(row, salt)
                 row = add_year(row)
                 row = add_month(row)
+                row = add_penalty(row)
                 writer.writerow(row)
             except IndexError:
                 print(row, file=sys.stderr)
