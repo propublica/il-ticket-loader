@@ -69,15 +69,15 @@ def calculate_penalty(row):
     """
     Calculate penalty as `(current_amount_due + total_paid) - fine_level1_amount`
     """
-    if float(row[14]) < 0:
+
+    # If current amount due is negative or ticket was dismissed,
+    # penalty is null
+    if float(row[14]) < 0 or row[16] == 'Dismissed':
         penalty = None
-    elif row[16] != 'Dismissed':
-        penalty = (float(row[14]) + float(row[15])) - float(row[12])
     else:
-        penalty = None
+        penalty = (float(row[14]) + float(row[15])) - float(row[12])
 
     return penalty
-
 
 def add_year(row):
     """
