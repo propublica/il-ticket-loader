@@ -154,5 +154,13 @@ load_meta_% : data/metadata/%.csv
 	$(check_public_relation) && psql $(ILTICKETS_DB_URL) -c "\copy $* from '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
 
 
+data/geojson/%.json :
+	$(check_public_relation) || ogr2ogr -f GeoJSON $@ PG:"$(ILTICKETS_DB_STRING)" -sql "select * from $*;"
+
+
+upload_geojson_% : data/geojson/%.json
+	mapbox upload propublica.il-tickets-$* $<
+
+
 clean_% :
 	rm -Rf data/$*/*
