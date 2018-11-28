@@ -46,6 +46,17 @@ create table if not exists wardstotals5yr as
           hearing_disposition = 'Not Liable')
         group by ward
     ),
+    wards_notliabletickets as (
+      select
+        ward,
+        sum(ticket_count) as notliable_ticket_count
+        from wardsyearly, year_bounds
+        where
+          (year > min_year and year < max_year)
+          and
+          hearing_disposition = 'Not Liable'
+        group by ward
+    ),
     wards_bankruptcytickets as (
       select
         ward,
@@ -103,6 +114,7 @@ create table if not exists wardstotals5yr as
         p.police_ticket_count / t.ticket_count as police_ticket_count_pct,
         c.contested_ticket_count,
         c.contested_ticket_count / t.ticket_count as contested_ticket_count_pct,
+        n.notliable_ticket_count / c.contested_ticket_count as contested_and_notliable_pct,
         pd.paid_ticket_count,
         pd.paid_ticket_count/t.ticket_count as paid_ticket_count_pct,
         d.dismissed_ticket_count,
@@ -117,6 +129,8 @@ create table if not exists wardstotals5yr as
         t.ward = p.ward
       join wards_contestedtickets c on
         t.ward = c.ward
+      join wards_notliabletickets n on
+        t.ward = n.ward
       join wards_bankruptcytickets b on
         t.ward = b.ward
       join wards_paidtickets pd on
@@ -157,6 +171,9 @@ create table if not exists wardstotals5yr as
 
         min(contested_ticket_count_pct) as min_contested_ticket_count_pct,
         max(contested_ticket_count_pct) as max_contested_ticket_count_pct,
+
+        min(contested_and_notliable_pct) as min_contested_and_notliable_pct,
+        max(contested_and_notliable_pct) as max_contested_and_notliable_pct,
 
         min(paid_ticket_count) as min_paid_ticket_count,
         max(paid_ticket_count) as max_paid_ticket_count,
@@ -256,6 +273,13 @@ create table if not exists wardstotals5yr as
     width_bucket(contested_ticket_count_pct, min_contested_ticket_count_pct, max_contested_ticket_count_pct, num_bins) as contested_ticket_count_pct_bucket,
     min_contested_ticket_count_pct + ((max_contested_ticket_count_pct - min_contested_ticket_count_pct) / num_bins) * (width_bucket(contested_ticket_count_pct, min_contested_ticket_count_pct, max_contested_ticket_count_pct, num_bins) - 1) as contested_ticket_count_pct_bucket_min,
     min_contested_ticket_count_pct + ((max_contested_ticket_count_pct - min_contested_ticket_count_pct) / num_bins) * (width_bucket(contested_ticket_count_pct, min_contested_ticket_count_pct, max_contested_ticket_count_pct, num_bins)) as contested_ticket_count_pct_bucket_max,
+
+    contested_and_notliable_pct,
+    dense_rank() over (order by contested_and_notliable_pct desc) as contested_and_notliable_pct_rank,
+
+    width_bucket(contested_and_notliable_pct, min_contested_and_notliable_pct, max_contested_and_notliable_pct, num_bins) as contested_and_notliable_pct_bucket,
+    min_contested_and_notliable_pct + ((max_contested_and_notliable_pct - min_contested_and_notliable_pct) / num_bins) * (width_bucket(contested_and_notliable_pct, min_contested_and_notliable_pct, max_contested_and_notliable_pct, num_bins) - 1) as contested_and_notliable_pct_bucket_min,
+    min_contested_and_notliable_pct + ((max_contested_and_notliable_pct - min_contested_and_notliable_pct) / num_bins) * (width_bucket(contested_and_notliable_pct, min_contested_and_notliable_pct, max_contested_and_notliable_pct, num_bins)) as contested_and_notliable_pct_bucket_max,
 
     paid_ticket_count,
     dense_rank() over (order by paid_ticket_count desc) as paid_ticket_count_rank,
