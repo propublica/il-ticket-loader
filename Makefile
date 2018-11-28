@@ -17,6 +17,7 @@ tables : $(patsubst %, table_%, $(DATATABLES)) $(patsubst %, table_%, $(METADATA
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 meta : $(patsubst %, load_meta_%, $(METADATA))
+appgeo : bootstrap load_geodata_wards2015
 
 parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(CAMERAYEARS))
@@ -161,6 +162,12 @@ data/geojson/%.json :
 upload_geojson_% : data/geojson/%.json
 	mapbox upload propublica.il-tickets-$* $<
 
+
+#READSQL:=$(shell cat $@)
+data/exports/%.csv : sql/exports/%.sql
+	psql $(ILTICKETS_DB_URL) -c "\copy ($(shell cat $<)) to '$(CURDIR)/$@'"
+
+	#psql $(ILTICKETS_DB_URL) -c "\copy (
 
 clean_% :
 	rm -Rf data/$*/*
