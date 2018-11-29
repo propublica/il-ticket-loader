@@ -63,6 +63,10 @@ view_% : sql/views/%.sql
 	$(check_public_relation) || psql $(ILTICKETS_DB_URL) -f $<
 
 
+populate_addresses : sql/geocodes/populate_addresses.sql
+	psql $(ILTICKETS_DB_URL) -f $<
+
+
 index_% : sql/indexes/%.sql
 	psql $(ILTICKETS_DB_URL) -f $<
 
