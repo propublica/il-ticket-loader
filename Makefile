@@ -167,11 +167,9 @@ upload_geojson_% : data/geojson/%.json
 	mapbox upload propublica.il-tickets-$* $<
 
 
-#READSQL:=$(shell cat $@)
 data/exports/%.csv : sql/exports/%.sql
 	psql $(ILTICKETS_DB_URL) -c "\copy ($(shell cat $<)) to '$(CURDIR)/$@'"
 
-	#psql $(ILTICKETS_DB_URL) -c "\copy (
 
 clean_% :
 	rm -Rf data/$*/*
