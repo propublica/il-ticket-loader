@@ -23,6 +23,7 @@ class GeocodeparkingDatabasePipeline(object):
         return d
 
     def _insert(self, conn, item, spider):
+        item['address'] = item['address'].replace("'", "''")
         query = """
             update geocodes set
                 address='{address}',

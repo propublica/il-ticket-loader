@@ -14,20 +14,24 @@ db = records.Database(os.environ.get('ILTICKETS_DB_URL', 'postgres://localhost/i
 class GeocodioSpider(scrapy.Spider):
     name = 'geocodio'
 
+    def _clean_address(self, address):
+        cleaned = address.replace("'", "")
+        return cleaned
+
     def start_requests(self):
         rows = db.query("""
             select
                 address
             from
-                geocodes tablesample system(1)
+                geocodes
             where
                 geocoded_address is null
-            limit 10
         """)
 
         for row in rows:
+            address = self._clean_address(row['address'])
             params = {
-                'q': row['address'],
+                'q': address,
                 'api_key': GEOCODIO_ACCESS_TOKEN,
             }
             url = URL_TMPL.format(params=urlencode(params))
@@ -45,7 +49,7 @@ class GeocodioSpider(scrapy.Spider):
             'geocoded_zip': geojson['results'][0]['address_components']['zip'],
             'geocode_accuracy': geojson['results'][0]['accuracy'],
             'geocode_accuracy_type': geojson['results'][0]['accuracy_type'],
-            'geocode_geojson': response.text
+            'geocode_geojson': response.text,
         }
         yield item
 
