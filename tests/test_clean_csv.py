@@ -1,23 +1,29 @@
 import pytest
 from processors import clean_csv
 
+corrections = clean_csv.get_corrections()
 
-TEST_ADDRESSES = [
-    ('04 W BLACKHAWK', '1 w blackhawk'),
-    ('5627 S CALUMET', '5600 s calumet'),
-    ('01800 N NEWCASTLE', '1800 n newcastle'),
-    ('2319 W FOSTER', '2300 w foster'),
-    ('03634 W SHAKESPEARE', '3600 w shakespeare'),
-    ('420 W 63RD ST', '400 w 63rd st'),
+
+TEST_CLEAN_ADDRESSES = [
+    ('04 w blackhawk', '04 w blackhawk'),
+    ('1638 w 47th ds', '1638 w 47th dr'),
+    ('925 w 50th sts', '925 w 50th st'),
 ]
 
+TEST_NORMALIZE_ADDRESSES = [
+    ('04 w blackhawk', '1 w blackhawk'),
+    ('5627 s calumet', '5600 s calumet'),
+    ('01800 n newcastle', '1800 n newcastle'),
+    ('2319 w foster', '2300 w foster'),
+    ('03634 w shakespeare', '3600 w shakespeare'),
+    ('420 w 63rd st', '400 w 63rd st'),
+]
 
 TEST_BAD_ROWS = [
     ['68862242', '01/01/2018 08:45 am', '8731 S CRANDON', 'V739544', 'IL', 'PAS', '60629', '0976210B', 'WINDOWS MISSING OR CRACKED BEYOND 6"$145"', 'CPD-Other', 'OLDS', '25', '50', '0', '0', 'Dismissed', '04/01/2018', '', '', '0', '17169'],
     ['68783813', '01/01/2018 11:59 pm', '2300 N LAWNDALE', '2219916', 'IL', 'PAS', '606393518', '0976210B', 'WINDOWS MISSING OR CRACKED BEYOND 6"$25"', 'CPD', 'CADI', '25', '50', '0', '0', 'Dismissed', '03/28/2018', '', 'Not Liable', '5210502980', '8242'],
     ['68705090', '01/23/2018 12:46 am', '62 E CERMAK', '867T935', 'IL', 'TMP', '60653', '0976100A', 'SUSPENSION MODIFIED BEYOND 3"$1"', 'CPD', 'FORD', '25', '50', '50', '0', 'Notice', '02/01/2018', 'SEIZ', '', '5211010250', '3377'],
 ]
-
 
 TEST_PENALTY_ROWS = [
     (['60607661', '01/03/2012 12:39 pm', '4400 N PULASKI', 'P230623', 'IL', 'PAS', '60609', '0964125', 'NO CITY STICKER OR IMPROPER DISPLAY', '501', 'Miscellaneous', 'JEEP', '120', '240', '292.8', '0', 'Notice', '02/09/2012', 'DLS', '', '5122261100', '83'], 172.8),
@@ -27,17 +33,22 @@ TEST_PENALTY_ROWS = [
     (['57592040', '01/01/2012 12:02 am', '100 N LAKESHORE DR', '184199', 'IL', 'OTH', '', '0964150B', 'PARKING/STANDING PROHIBITED ANYTIME', '145', 'CPD-Other', 'HOND', '60', '120', '0', '0', 'Dismissed', '04/01/2012', '', '', '0', '1568'], None),
 ]
 
-
-# (input, (month, year))
+# (input, (month, year, hour))
 TEST_DATES = [
-    ('03/05/2005 09:05 pm', (3, 2005)),
-    ('06/25/1999 04:00 pm', (6, 1999)),
-    ('10/02/2011 03:18 pm', (10, 2011)),
+    ('03/05/2005 09:05 pm', (3, 2005, 21)),
+    ('06/25/1999 04:00 pm', (6, 1999, 16)),
+    ('10/02/2011 03:18 am', (10, 2011, 3)),
 ]
 
-@pytest.mark.parametrize("input,expected", TEST_ADDRESSES)
+
+@pytest.mark.parametrize("input,expected", TEST_CLEAN_ADDRESSES)
 def test_clean_address(input, expected):
-    assert clean_csv.clean_address(input) == expected
+    assert clean_csv.clean_address(input, corrections) == expected
+
+
+@pytest.mark.parametrize("input,expected", TEST_NORMALIZE_ADDRESSES)
+def test_normalize_block(input, expected):
+    assert clean_csv.normalize_block(input) == expected
 
 
 @pytest.mark.parametrize("row", TEST_BAD_ROWS)
@@ -56,6 +67,13 @@ def test_extract_month(input, expected):
 def test_extract_year(input, expected):
     month = clean_csv.extract_year(input)
     assert month == expected[1]
+
+
+@pytest.mark.parametrize("input,expected", TEST_DATES)
+def test_extract_hour(input, expected):
+    month = clean_csv.extract_hour(input)
+    assert month == expected[2]
+
 
 @pytest.mark.parametrize("input,expected", TEST_PENALTY_ROWS)
 def test_penalty(input, expected):

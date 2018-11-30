@@ -3,6 +3,7 @@ import re
 import sys
 from Crypto.Hash import SHA256
 
+
 block_re = re.compile(r"0*(\d*)(\d{2})(\s)", re.IGNORECASE)
 twodigit_re = re.compile(r"^(00 )(.*)", re.IGNORECASE)
 
@@ -17,24 +18,38 @@ def clean_quotes(row):
     return row
 
 
-def clean_location(row):
+def clean_location(row, corrections):
     """
     Clean up a parking address for geocoding by adding the Chicago, IL stuff to the end.
     """
-    address = "{2}, Chicago, IL".format(*row)
-    address = clean_address(address)
-    row.append(address.strip())
+    address = row[2].strip().lower()
+    address = clean_address(address, corrections)
+    address = normalize_block(address)
+    address = "{}, Chicago, IL".format(address)
+    row.append(address)
     return row
 
 
-def clean_address(address):
+def clean_address(address, corrections):
     """
-    Simplistic block-level address parsing
+    Use Matt Chapman's manual mapping
+    """
+    parts = block_re.split(address)
+    street_part = parts[-1]
+    if street_part in corrections.keys():
+        parts[-1] = corrections[street_part]
+    ret = ''.join(parts)
+    return ret
+
+
+def normalize_block(address):
+    """
+    Block-level address normalization
 
     6232 S. Loomis -> 6200 S. Loomis
     15 North State St -> 1 North State St
     """
-    ret = block_re.sub(r'\g<1>00\g<3>', address).lower()
+    ret = block_re.sub(r'\g<1>00\g<3>', address)
     ret = twodigit_re.sub(r'1 \g<2>', ret)
     return ret
 
@@ -63,6 +78,19 @@ def extract_month(datestring):
     Return month part of date string as integer.
     """
     return int(datestring[:2])
+
+
+def extract_hour(datestring):
+    """
+    Return hour part of date string as integer.
+    """
+    hour = int(datestring[11:13])
+    cycle = datestring[17:19]
+    if hour == 12 and cycle == 'am':
+        hour = 0
+    if cycle == 'pm':
+        hour += 12
+    return hour
 
 
 def calculate_penalty(row):
@@ -95,6 +123,14 @@ def add_month(row):
     return row
 
 
+def add_hour(row):
+    """
+    Add month to row.
+    """
+    row.append(extract_hour(row[1]))
+    return row
+
+
 def add_penalty(row):
     """
     Add penalty to row.
@@ -103,15 +139,31 @@ def add_penalty(row):
     return row
 
 
+def get_corrections(datafile='data/geodata/corrections.csv'):
+    """
+    Get corrections
+    """
+    with open(datafile, 'r') as f:
+        corrections_reader = csv.reader(f)
+        next(corrections_reader)
+        corrections = { bad: good for good, bad in corrections_reader }
+    return corrections
+
+
 def clean(data_filename, salt_filename):
     """
     Clean up parking CSV.
     """
-    addcol = False  # Some source files have "reason for dismissmal" column
     with open(salt_filename, 'r') as f:
         salt = f.read()
+
+    corrections = get_corrections()
+
     writer = csv.writer(sys.stdout, quoting=csv.QUOTE_ALL)
+
     with open(data_filename) as f:
+        addcol = False
+
         reader = csv.reader((line.replace('\0','') for line in f), delimiter="$", quotechar='"')
         headers = next(reader)
 
@@ -119,7 +171,7 @@ def clean(data_filename, salt_filename):
         if 'Reason for Dismissal' not in headers:
             headers = headers[:-1] + ['Reason for Dismissal'] + headers[-1:]
             addcol = True
-        headers += ['address', 'license_hash', 'year', 'month', 'penalty']
+        headers += ['address', 'license_hash', 'year', 'month', 'hour', 'penalty']
         writer.writerow(headers)
 
         for row in reader:
@@ -127,10 +179,11 @@ def clean(data_filename, salt_filename):
                 row = clean_quotes(row)
                 if addcol:
                     row = row[:-1] + [''] + row[-1:]
-                row = clean_location(row)
+                row = clean_location(row, corrections)
                 row = hash_plates(row, salt)
                 row = add_year(row)
                 row = add_month(row)
+                row = add_hour(row)
                 row = add_penalty(row)
                 writer.writerow(row)
             except IndexError:

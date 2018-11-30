@@ -1,15 +1,17 @@
 PARKINGYEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 CAMERAYEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
-DATATABLES = parking
+DATATABLES = parking cameras
 METADATA = wardmeta
 GEOTABLES = communityareas wards2015
-VIEWS = violations blocks blockstotals wardsyearly wardstotals
+VIEWS = violations blocks blockstotals wardsyearly wardstotals wardstotals5yr wardscommunityareas
 DATADIRS = analysis cameras geodata parking processed
+
+# Id,Id2,Geography,Estimate; Total:,Margin of Error; Total:,Estimate; Total: - White alone,Margin of Error; Total: - White alone,Estimate; Total: - Black or African American alone,Margin of Error; Total: - Black or African American alone,Estimate; Total: - American Indian and Alaska Native alone,Margin of Error; Total: - American Indian and Alaska Native alone,Estimate; Total: - Asian alone,Margin of Error; Total: - Asian alone,Estimate; Total: - Native Hawaiian and Other Pacific Islander alone,Margin of Error; Total: - Native Hawaiian and Other Pacific Islander alone,Estimate; Total: - Some other race alone,Margin of Error; Total: - Some other race alone,Estimate; Total: - Two or more races:,Margin of Error; Total: - Two or more races:,Estimate; Total: - Two or more races: - Two races including Some other race,Margin of Error; Total: - Two or more races: - Two races including Some other race,"Estimate; Total: - Two or more races: - Two races excluding Some other race, and three or more races","Margin of Error; Total: - Two or more races: - Two races excluding Some other race, and three or more races" 
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo parking cameras meta indexes views
+all: bootstrap geo parking meta indexes views
 
 bootstrap : create_db tables schema
 geo: load_geocodes $(patsubst %, load_geodata_%, $(GEOTABLES))
@@ -97,6 +99,10 @@ data/metadata/wardmeta.csv :
 
 load_geodata_% : data/geodata/%.json
 	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/$*.json" -nln $* -overwrite
+
+
+load_geodata_shp_tl_2016_17_bg : data/geodata/tl_2016_17_bg/tl_2016_17_bg.shp
+	ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/tl_2016_17_bg/tl_2016_17_bg.shp" -nln tl_2016_17_bg -t_srs EPSG:4326 -overwrite
 
 
 data/parking/A50951_PARK_Year_%.txt :

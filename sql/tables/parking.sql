@@ -26,5 +26,6 @@ CREATE TABLE public.parking (
   license_hash character varying,
   year int,
   month int,
+  hour int,
   penalty double precision null
 );
