@@ -98,11 +98,11 @@ data/metadata/wardmeta.csv :
 
 
 load_geodata_% : data/geodata/%.json
-	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/$*.json" -nln $* -overwrite
+	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "$<" -nln $* -overwrite
 
 
-load_geodata_shp_tl_2016_17_bg : data/geodata/tl_2016_17_bg/tl_2016_17_bg.shp
-	ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "data/geodata/tl_2016_17_bg/tl_2016_17_bg.shp" -nln tl_2016_17_bg -t_srs EPSG:4326 -overwrite
+load_geodata_% : data/geodata/%.shp
+	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "$<" -nln $* -t_srs EPSG:4326 -overwrite
 
 
 data/parking/A50951_PARK_Year_%.txt :
