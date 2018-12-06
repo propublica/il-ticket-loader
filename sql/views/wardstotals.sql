@@ -7,7 +7,7 @@ create table if not exists wardstotals as
     year_bounds as (
       select
         1995 as min_year,
-        2018 as max_year
+        2019 as max_year
     ),
     wards_toplevel as (
       select
@@ -108,6 +108,7 @@ create table if not exists wardstotals as
         t.total_payments,
         t.current_amount_due,
         t.fine_level1_amount,
+        t.total_payments / (t.current_amount_due + t.total_payments) as paid_pct,
         t.current_amount_due / t.total_payments as debt_to_payment_ratio,
         t.fine_level1_amount / t.ticket_count as avg_per_ticket,
         p.police_ticket_count,
@@ -159,6 +160,9 @@ create table if not exists wardstotals as
 
         min(debt_to_payment_ratio) as min_debt_to_payment_ratio,
         max(debt_to_payment_ratio) as max_debt_to_payment_ratio,
+
+        min(paid_pct) as min_paid_pct,
+        max(paid_pct) as max_paid_pct,
 
         min(police_ticket_count) as min_police_ticket_count,
         max(police_ticket_count) as max_police_ticket_count,
@@ -245,6 +249,13 @@ create table if not exists wardstotals as
     width_bucket(debt_to_payment_ratio, min_debt_to_payment_ratio, max_debt_to_payment_ratio, num_bins) as debt_to_payment_ratio_bucket,
     min_debt_to_payment_ratio + ((max_debt_to_payment_ratio - min_debt_to_payment_ratio) / num_bins) * (width_bucket(debt_to_payment_ratio, min_debt_to_payment_ratio, max_debt_to_payment_ratio, num_bins) - 1) as debt_to_payment_ratio_bucket_min,
     min_debt_to_payment_ratio + ((max_debt_to_payment_ratio - min_debt_to_payment_ratio) / num_bins) * (width_bucket(debt_to_payment_ratio, min_debt_to_payment_ratio, max_debt_to_payment_ratio, num_bins)) as debt_to_payment_ratio_bucket_max,
+
+    paid_pct,
+    dense_rank() over (order by paid_pct desc) as paid_pct_rank,
+
+    width_bucket(paid_pct, min_paid_pct, max_paid_pct, num_bins) as paid_pct_bucket,
+    min_paid_pct + ((max_paid_pct - min_paid_pct) / num_bins) * (width_bucket(paid_pct, min_paid_pct, max_paid_pct, num_bins) - 1) as paid_pct_bucket_min,
+    min_paid_pct + ((max_paid_pct - min_paid_pct) / num_bins) * (width_bucket(paid_pct, min_paid_pct, max_paid_pct, num_bins)) as paid_pct_bucket_max,
 
     police_ticket_count,
     dense_rank() over (order by police_ticket_count desc) as police_ticket_count_rank,

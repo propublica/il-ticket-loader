@@ -1,4 +1,4 @@
-create table if not exists public.blockgroups_race (
+create table if not exists public.acs_16_5yr_b02001 (
   id character varying,
   geoid character varying,
   geography character varying,
