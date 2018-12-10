@@ -25,7 +25,9 @@ class GeocodioSpider(scrapy.Spider):
             from
                 geocodes
             where
-                geocoded_address is null
+                (geocode_accuracy_type is null or
+                geocode_accuracy_type == 'place' or
+                geocode_accuracy_type == 'street_center')
         """)
 
         for row in rows:

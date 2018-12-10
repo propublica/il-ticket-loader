@@ -1,0 +1,11 @@
+metric,value
+total_tickets,54430546
+total_tickets_5yr,11986700
+accurate_tickets_pct,0.93528214837308448091
+total_accurate_tickets,50907918
+accurate_tickets_5yr_pct,0.94483510891237788549
+very_accurate_tickets_pct,0.85018515155074872848
+total_accurate_tickets_5yr,11325455
+total_very_accurate_tickets,46276042
+very_accurate_tickets_5yr_pct,0.87757831596686327346
+total_very_accurate_tickets_5yr,10519268
