@@ -1,6 +1,9 @@
 metric,value
 total_tickets,54430546
+wards_amount_due,1685865011.43
 total_tickets_5yr,11986700
+citywide_amount_due,1774000201.886
+ward_amount_due_pct,0.950318387584005
 accurate_tickets_pct,0.93528214837308448091
 total_accurate_tickets,50907918
 accurate_tickets_5yr_pct,0.94483510891237788549
