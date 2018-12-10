@@ -2,12 +2,11 @@ PARKINGYEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 
 #PARKINGYEARS = 2018
 CAMERAYEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking cameras
-CENSUSTABLES = acs_16_5yr_b02001
+CENSUSTABLES = acs_16_5yr_b02001 acs_16_5yr_b03002
 METADATA = wardmeta
-CENSUSDATA = acs_16_5yr_b02001
 GEOJSONTABLES = communityareas wards2015
 SHPTABLES = tl_2016_17_bg tl_2016_17_tabblock10
-VIEWS = violations blocks blockstotals wards wardsyearly wardstotals wardstotals5yr wardscommunityareas
+VIEWS = blocks blockstotals wards warddemographics wardsyearly wardsyearlytotals wardstotals wardstotals5yr wardscommunityareas violations
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
@@ -19,8 +18,8 @@ bootstrap : create_db tables schema
 geo: load_geocodes geojson_tables shp_tables
 geojson_tables: $(patsubst %, load_geojson_%, $(GEOJSONTABLES))
 shp_tables: $(patsubst %, load_shp_%, $(SHPTABLES))
-tables : $(patsubst %, table_%, $(DATATABLES)) $(patsubst %, table_%, $(METADATA))
-census : $(patsubst %, load_census_%, $(CENSUSDATA))
+tables : $(patsubst %, table_%, $(DATATABLES)) $(patsubst %, table_%, $(METADATA)) $(patsubst %, table_%, $(CENSUSTABLES))
+census : $(patsubst %, load_census_%, $(CENSUSTABLES))
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 meta : $(patsubst %, load_meta_%, $(METADATA))
@@ -66,6 +65,7 @@ endef
 create_db :
 	$(check_database) || psql $(ILTICKETS_DB_ROOT_URL) -c "create database $(ILTICKETS_DB_NAME) lc_collate \"C\" lc_ctype \"C\" template template0" && \
 	$(psql) -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+	$(psql) -c "CREATE EXTENSION IF NOT EXISTS hstore;"
 
 
 table_% : sql/tables/%.sql
@@ -116,8 +116,12 @@ load_shp_% : data/geodata/%.shp
 	$(check_public_relation) || ogr2ogr -f "PostgreSQL" PG:"$(ILTICKETS_DB_STRING)" "$<" -nlt PROMOTE_TO_MULTI -nln $* -t_srs EPSG:4326 -overwrite
 
 
-dump :
+dump_geocodes :
 	pg_dump $(ILTICKETS_DB_URL) --verbose -t geocodes -Fc -f data/dumps/parking-geocodes-geocodio.dump
+
+
+#dump_parking_geo :
+	#pg_dump $(ILTICKETS_DB_URL) --verbose -j 4 -t parking_geo -Fc -f data/dumps/parking-geo.dump
 
 
 data/parking/A50951_PARK_Year_%.txt :
@@ -197,7 +201,15 @@ upload_geojson_% : data/geojson/%.json
 
 
 data/exports/%.csv : sql/exports/%.sql
-	$(psql) -c "\copy ($(shell cat $<)) to '$(CURDIR)/$@'"
+	$(psql) -c "\copy ($(shell cat $<)) to '$(CURDIR)/$@' with (format csv, header);"
+
+
+test_data :
+	$(psql) -c "\copy (SELECT (x).key as metric, (x).value \
+		FROM \
+			( SELECT EACH(hstore($@)) as x \
+				FROM $@ \
+			) q) to '$(CURDIR)/data/test-results/test-data.csv' with (format csv, header);"
 
 
 clean_% :
