@@ -63,7 +63,17 @@ with
 			and geocode_accuracy_type != 'place'
 			and geocode_accuracy_type != 'street_center'
 			and geocode_accuracy >= 0.7
-	)
+	),
+  citywide_totals as (
+    select
+      sum(current_amount_due) as citywide_amount_due
+    from all_tickets
+  ),
+  ward_totals as (
+    select
+      sum(current_amount_due) as wards_amount_due
+    from wardsyearlytotals
+  )
 select
 	total_tickets,
 	total_accurate_tickets,
@@ -74,8 +84,11 @@ select
 	total_accurate_tickets_5yr,
 	total_very_accurate_tickets_5yr,
 	total_accurate_tickets_5yr::decimal / total_tickets_5yr::decimal as accurate_tickets_5yr_pct,
-	total_very_accurate_tickets_5yr::decimal / total_tickets_5yr::decimal as very_accurate_tickets_5yr_pct
-from total_accurate_tickets, total_very_accurate_tickets, total_tickets, total_accurate_tickets_5yr, total_very_accurate_tickets_5yr, total_tickets_5yr;
+	total_very_accurate_tickets_5yr::decimal / total_tickets_5yr::decimal as very_accurate_tickets_5yr_pct,
+  citywide_amount_due,
+  wards_amount_due,
+  wards_amount_due / citywide_amount_due as ward_amount_due_pct
+from total_accurate_tickets, total_very_accurate_tickets, total_tickets, total_accurate_tickets_5yr, total_very_accurate_tickets_5yr, total_tickets_5yr, citywide_totals, ward_totals;
 
 
 
