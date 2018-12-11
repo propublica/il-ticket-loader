@@ -6,8 +6,8 @@ create table if not exists wardstotals5yr as
 
     year_bounds as (
       select
-        2012 as min_year,
-        2019 as max_year
+        2013 as min_year,
+        2017 as max_year
     ),
     wards_toplevel as (
       select
@@ -18,7 +18,7 @@ create table if not exists wardstotals5yr as
         sum(fine_level1_amount) as fine_level1_amount
       from wardsyearly, year_bounds
       where
-        (year > min_year and year < max_year)
+        (year >= min_year and year <= max_year)
       group by ward
     ),
     wards_policetickets as (
@@ -27,7 +27,7 @@ create table if not exists wardstotals5yr as
         sum(ticket_count) as police_ticket_count
         from wardsyearly, year_bounds
         where
-          (year > min_year and year < max_year)
+          (year >= min_year and year <= max_year)
           and
           (unit_description = 'CPD' or
           unit_description = 'CPD-Other' or
@@ -40,7 +40,7 @@ create table if not exists wardstotals5yr as
         sum(ticket_count) as contested_ticket_count
         from wardsyearly, year_bounds
         where
-          (year > min_year and year < max_year)
+          (year >= min_year and year <= max_year)
           and
           (hearing_disposition = 'Liable' or
           hearing_disposition = 'Not Liable')
@@ -52,7 +52,7 @@ create table if not exists wardstotals5yr as
         sum(ticket_count) as notliable_ticket_count
         from wardsyearly, year_bounds
         where
-          (year > min_year and year < max_year)
+          (year >= min_year and year <= max_year)
           and
           hearing_disposition = 'Not Liable'
         group by ward
@@ -63,7 +63,7 @@ create table if not exists wardstotals5yr as
         sum(ticket_count) as bankruptcy_ticket_count
       from wardsyearly, year_bounds
       where
-        (year > min_year and year < max_year)
+        (year >= min_year and year <= max_year)
         and
         ticket_queue = 'Bankruptcy'
       group by ward
@@ -74,7 +74,7 @@ create table if not exists wardstotals5yr as
       sum(ticket_count) as paid_ticket_count
       from wardsyearly, year_bounds
       where
-        (year > min_year and year < max_year)
+        (year >= min_year and year <= max_year)
         and
         ticket_queue = 'Paid'
       group by ward
@@ -85,7 +85,7 @@ create table if not exists wardstotals5yr as
       sum(ticket_count) as dismissed_ticket_count
       from wardsyearly, year_bounds
       where
-        (year > min_year and year < max_year)
+        (year >= min_year and year <= max_year)
         and
         ticket_queue = 'Dismissed'
       group by ward
@@ -96,7 +96,7 @@ create table if not exists wardstotals5yr as
       sum(ticket_count) as seized_or_suspended_ticket_count
       from wardsyearly, year_bounds
       where
-        (year > min_year and year < max_year)
+        (year >= min_year and year <= max_year)
         and
         (notice_level = 'SEIZ' or notice_level = 'DLS')
       group by ward
