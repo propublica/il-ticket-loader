@@ -9,5 +9,6 @@ CREATE TABLE public.geocodes (
   geocode_accuracy float,
   geocode_accuracy_type character varying,
   geocode_geojson jsonb,
+  smarty_geocode boolean,
   geom geometry(Geometry,4326)
 )
