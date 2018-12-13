@@ -6,6 +6,7 @@ with
 			g.geocoded_city,
 			g.geocode_accuracy_type,
 			g.geocode_accuracy,
+      g.smarty_geocode,
 			p.*
 		from parking p
 		join geocodes g
@@ -26,9 +27,14 @@ with
 			count(*) as total_accurate_tickets
 		from all_tickets
 		where
-			geocoded_city = 'Chicago'
-			and geocode_accuracy_type != 'place'
-			and geocode_accuracy_type != 'street_center'
+      smarty_geocode = true or (
+        geocoded_city = 'Chicago' and (
+          geocode_accuracy_type = 'range_interpolation' or
+          geocode_accuracy_type = 'rooftop' or
+          geocode_accuracy_type = 'intersection' or
+          geocode_accuracy_type = 'point'
+        )
+      )
 	),
 	total_very_accurate_tickets as (
 		select
@@ -50,9 +56,14 @@ with
 			count(*) as total_accurate_tickets_5yr
 		from all_tickets_5yr
 		where
-			geocoded_city = 'Chicago'
-			and geocode_accuracy_type != 'place'
-			and geocode_accuracy_type != 'street_center'
+      smarty_geocode = true or (
+        geocoded_city = 'Chicago' and (
+          geocode_accuracy_type = 'range_interpolation' or
+          geocode_accuracy_type = 'rooftop' or
+          geocode_accuracy_type = 'intersection' or
+          geocode_accuracy_type = 'point'
+        )
+      )
 	),
 	total_very_accurate_tickets_5yr as (
 		select

@@ -1,14 +1,6 @@
 import pytest
 from processors import clean_csv
 
-corrections = clean_csv.get_corrections()
-
-
-TEST_CLEAN_ADDRESSES = [
-    ('04 w blackhawk', '04 w blackhawk'),
-    ('1638 w 47th ds', '1638 w 47th dr'),
-    ('925 w 50th sts', '925 w 50th st'),
-]
 
 TEST_NORMALIZE_ADDRESSES = [
     ('04 w blackhawk', '1 w blackhawk'),
@@ -39,11 +31,6 @@ TEST_DATES = [
     ('06/25/1999 04:00 pm', (6, 1999, 16)),
     ('10/02/2011 03:18 am', (10, 2011, 3)),
 ]
-
-
-@pytest.mark.parametrize("input,expected", TEST_CLEAN_ADDRESSES)
-def test_clean_address(input, expected):
-    assert clean_csv.clean_address(input, corrections) == expected
 
 
 @pytest.mark.parametrize("input,expected", TEST_NORMALIZE_ADDRESSES)

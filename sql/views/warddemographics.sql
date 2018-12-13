@@ -15,6 +15,6 @@ create table warddemographics as
 		tl_2016_17_bg bg on
 			st_within(bg.wkb_geometry, w.wkb_geometry)
 	join
-		acs_16_5yr_b03002 race on
+		acs_17_5yr_b03002 race on
 			bg.geoid = race.geoid
 	group by w.ward;
