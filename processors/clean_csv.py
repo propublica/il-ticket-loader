@@ -18,28 +18,15 @@ def clean_quotes(row):
     return row
 
 
-def clean_location(row, corrections):
+def clean_location(row):
     """
     Clean up a parking address for geocoding by adding the Chicago, IL stuff to the end.
     """
     address = row[2].strip().lower()
-    address = clean_address(address, corrections)
     address = normalize_block(address)
     address = "{}, Chicago, IL".format(address)
     row.append(address)
     return row
-
-
-def clean_address(address, corrections):
-    """
-    Use Matt Chapman's manual mapping
-    """
-    parts = block_re.split(address)
-    street_part = parts[-1]
-    if street_part in corrections.keys():
-        parts[-1] = corrections[street_part]
-    ret = ''.join(parts)
-    return ret
 
 
 def normalize_block(address):
@@ -139,25 +126,12 @@ def add_penalty(row):
     return row
 
 
-def get_corrections(datafile='data/geodata/corrections.csv'):
-    """
-    Get corrections
-    """
-    with open(datafile, 'r') as f:
-        corrections_reader = csv.reader(f)
-        next(corrections_reader)
-        corrections = { bad: good for good, bad in corrections_reader }
-    return corrections
-
-
 def clean(data_filename, salt_filename):
     """
     Clean up parking CSV.
     """
     with open(salt_filename, 'r') as f:
         salt = f.read()
-
-    corrections = get_corrections()
 
     writer = csv.writer(sys.stdout, quoting=csv.QUOTE_ALL)
 
@@ -179,7 +153,7 @@ def clean(data_filename, salt_filename):
                 row = clean_quotes(row)
                 if addcol:
                     row = row[:-1] + [''] + row[-1:]
-                row = clean_location(row, corrections)
+                row = clean_location(row)
                 row = hash_plates(row, salt)
                 row = add_year(row)
                 row = add_month(row)

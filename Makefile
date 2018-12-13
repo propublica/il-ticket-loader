@@ -2,8 +2,8 @@ PARKINGYEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 
 #PARKINGYEARS = 2018
 CAMERAYEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking cameras
-CENSUSTABLES = acs_16_5yr_b02001 acs_16_5yr_b03002
-METADATA = wardmeta
+CENSUSTABLES = acs_17_5yr_b03002
+IMPORTS = wardmeta
 GEOJSONTABLES = communityareas wards2015
 SHPTABLES = tl_2016_17_bg tl_2016_17_tabblock10
 VIEWS = blocks blockstotals wards warddemographics wardsyearly wardsyearlytotals wardstotals wardstotals5yr wardscommunityareas violations
@@ -12,17 +12,17 @@ DATADIRS = analysis cameras geodata parking processed
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo census parking meta indexes views
+all: bootstrap geo census parking imports indexes views
 
 bootstrap : create_db tables schema
 geo: load_geocodes geojson_tables shp_tables
 geojson_tables: $(patsubst %, load_geojson_%, $(GEOJSONTABLES))
 shp_tables: $(patsubst %, load_shp_%, $(SHPTABLES))
-tables : $(patsubst %, table_%, $(DATATABLES)) $(patsubst %, table_%, $(METADATA)) $(patsubst %, table_%, $(CENSUSTABLES))
+tables : $(patsubst %, table_%, $(DATATABLES)) $(patsubst %, table_%, $(IMPORTS)) $(patsubst %, table_%, $(CENSUSTABLES))
 census : $(patsubst %, load_census_%, $(CENSUSTABLES))
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
-meta : $(patsubst %, load_meta_%, $(METADATA))
+imports : $(patsubst %, import_%, $(IMPORTS))
 appgeo : bootstrap load_geodata_wards2015
 
 parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
@@ -66,6 +66,7 @@ create_db :
 	$(check_database) || psql $(ILTICKETS_DB_ROOT_URL) -c "create database $(ILTICKETS_DB_NAME) lc_collate \"C\" lc_ctype \"C\" template template0" && \
 	$(psql) -c "CREATE EXTENSION IF NOT EXISTS postgis;"
 	$(psql) -c "CREATE EXTENSION IF NOT EXISTS hstore;"
+	$(psql) -c "CREATE EXTENSION IF NOT EXISTS tablefunc;"
 
 
 table_% : sql/tables/%.sql
@@ -74,6 +75,10 @@ table_% : sql/tables/%.sql
 
 view_% : sql/views/%.sql
 	$(check_public_relation) || $(psql) -f $<
+
+
+transform_% : sql/transforms/%.sql
+	$(psql) -f $<
 
 
 populate_addresses : sql/geocodes/populate_addresses.sql
@@ -120,8 +125,8 @@ dump_geocodes :
 	pg_dump $(ILTICKETS_DB_URL) --verbose -t geocodes -Fc -f data/dumps/parking-geocodes-geocodio.dump
 
 
-#dump_parking_geo :
-	#pg_dump $(ILTICKETS_DB_URL) --verbose -j 4 -t parking_geo -Fc -f data/dumps/parking-geo.dump
+dump_parking_geo :
+	pg_dump $(ILTICKETS_DB_URL) --verbose -t parking_geo -Fc -f data/dumps/parking-geo.dump
 
 
 data/parking/A50951_PARK_Year_%.txt :
@@ -188,7 +193,7 @@ dupes/cameras-%.csv : data/cameras/A50951_AUCM_Year_%.txt
 	touch $@
 
 
-load_meta_% : data/metadata/%.csv
+import_% : data/imports/%.csv
 	$(check_public_relation) && $(psql) -c "\copy $* from '$(CURDIR)/$<' with (delimiter ',', format csv, header);"
 
 
@@ -202,6 +207,10 @@ upload_geojson_% : data/geojson/%.json
 
 data/exports/%.csv : sql/exports/%.sql
 	$(psql) -c "\copy ($(shell cat $<)) to '$(CURDIR)/$@' with (format csv, header);"
+
+
+import_% : sql/imports/%.csv
+	$(psql) -c "\copy $* from '$(CURDIR)/$@' with (format csv, header);"
 
 
 test_data :
