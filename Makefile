@@ -198,10 +198,18 @@ import_% : data/imports/%.csv
 
 
 data/geojson/%.json :
-	$(check_public_relation) || ogr2ogr -f GeoJSON $@ PG:"$(ILTICKETS_DB_STRING)" -sql "select * from $*;"
+	$(check_public_relation) && ogr2ogr -f GeoJSON $@ PG:"$(ILTICKETS_DB_STRING)" -sql "select * from $*;"
+
+
+data/mbtiles/%.mbtiles : data/geojson/%.json
+	tippecanoe -zg --drop-densest-as-needed -o data/mbtiles/$*.mbtiles -f $<
 
 
 upload_geojson_% : data/geojson/%.json
+	mapbox upload propublica.il-tickets-$* $<
+
+
+upload_mbtiles_% : data/mbtiles/%.mbtiles
 	mapbox upload propublica.il-tickets-$* $<
 
 

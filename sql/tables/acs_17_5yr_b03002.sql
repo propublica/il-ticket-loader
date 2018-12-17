@@ -1,4 +1,4 @@
-create table if not exists public.acs_16_5yr_b03002 (
+create table if not exists public.acs_17_5yr_b03002 (
   id character varying,
   geoid character varying,
   geography character varying,
