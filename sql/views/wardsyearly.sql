@@ -22,5 +22,12 @@ create table if not exists wardsyearly as
   join
     parking p
     on p.address = g.address
+  where
+      g.geocoded_city = 'Chicago' and (
+        g.geocode_accuracy_type = 'range_interpolation' or
+        g.geocode_accuracy_type = 'rooftop' or
+        g.geocode_accuracy_type = 'intersection' or
+        g.geocode_accuracy_type = 'point'
+      )
   GROUP BY w.ward, p.year, p.notice_level, p.unit_description, p.hearing_disposition, p.ticket_queue, p.violation_code
 ;

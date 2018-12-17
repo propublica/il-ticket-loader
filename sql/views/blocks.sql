@@ -23,6 +23,7 @@ create table if not exists blocks as
         g.geocode_accuracy_type = 'intersection' or
         g.geocode_accuracy_type = 'point'
       )
+  order by geocoded_address, geocode_accuracy desc
 ;
 
 alter table blocks
