@@ -17,17 +17,16 @@ create table if not exists blocks as
   join
     wards2015 w on st_within(g.geom, w.wkb_geometry)
   where
+      g.geocode_accuracy > 0.7 and
       g.geocoded_city = 'Chicago' and (
         g.geocode_accuracy_type = 'range_interpolation' or
         g.geocode_accuracy_type = 'rooftop' or
         g.geocode_accuracy_type = 'intersection' or
-        g.geocode_accuracy_type = 'point'
+        g.geocode_accuracy_type = 'point' or
+        g.geocode_accuracy_type = 'ohare'
       )
   order by geocoded_address, geocode_accuracy desc
 ;
-
-alter table blocks
-  add column id serial primary key;
 
 create index on blocks (address);
 create index on blocks (ward);

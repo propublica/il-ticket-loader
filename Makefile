@@ -5,14 +5,15 @@ DATATABLES = parking cameras
 CENSUSTABLES = acs_17_5yr_b03002
 IMPORTS = wardmeta
 GEOJSONTABLES = communityareas wards2015
-SHPTABLES = tl_2016_17_bg tl_2016_17_tabblock10
-VIEWS = blocks blockstotals wards warddemographics wardsyearly wardsyearlytotals wardstotals wardstotals5yr wardscommunityareas violations
+SHPTABLES = tl_2016_17_bg tl_2016_17_tabblock10 tl_2017_us_state
+TRANSFORMS = ohare
+VIEWS = blocks wards warddemographics wardsyearly wardsyearlytotals wardstotals wardstotals5yr wardscommunityareas blocksyearly blockstotals geoblocks violations wardsviolations5yr wardstop5violations5yr citywideyearly
 DATADIRS = analysis cameras geodata parking processed
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo census parking imports indexes views
+all: bootstrap geo census parking imports transforms indexes views
 
 bootstrap : create_db tables schema
 geo: load_geocodes geojson_tables shp_tables
@@ -23,6 +24,7 @@ census : $(patsubst %, load_census_%, $(CENSUSTABLES))
 indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 imports : $(patsubst %, import_%, $(IMPORTS))
+transforms : $(patsubst %, transform_%, $(TRANSFORMS))
 appgeo : bootstrap load_geodata_wards2015
 
 parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
@@ -98,7 +100,7 @@ drop_db :
 
 
 drop_view_% :
-	$(psql) -c "drop table $*;"
+	$(psql) -c "drop table if exists $*;"
 
 
 data/geodata/communityareas.json :
