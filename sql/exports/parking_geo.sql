@@ -14,4 +14,3 @@ join
     p.address = g.address
 join blocks b on
   g.geocoded_address = b.address
-where b.ward is not null

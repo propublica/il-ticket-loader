@@ -23,11 +23,13 @@ create table if not exists wardsyearly as
     parking p
     on p.address = g.address
   where
+      g.geocode_accuracy > 0.7 and
       g.geocoded_city = 'Chicago' and (
         g.geocode_accuracy_type = 'range_interpolation' or
         g.geocode_accuracy_type = 'rooftop' or
         g.geocode_accuracy_type = 'intersection' or
-        g.geocode_accuracy_type = 'point'
+        g.geocode_accuracy_type = 'point' or
+        g.geocode_accuracy_type = 'ohare'
       )
   GROUP BY w.ward, p.year, p.notice_level, p.unit_description, p.hearing_disposition, p.ticket_queue, p.violation_code
 ;
