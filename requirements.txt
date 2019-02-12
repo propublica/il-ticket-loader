@@ -57,7 +57,6 @@ PyDispatcher==2.0.5
 Pygments==2.2.0
 PyHamcrest==1.9.0
 pyOpenSSL==18.0.0
--e git+git@github.com:jezcope/pyrefine.git@44872592b1c0430d942d6901d7670e7b0ae77b11#egg=pyrefine
 pytest==3.8.2
 python-dateutil==2.7.3
 python-slugify==1.2.5
