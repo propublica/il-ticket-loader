@@ -1,0 +1,28 @@
+select
+  c.ticket_number,
+  c.issue_date,
+  c.violation_location,
+  c.license_hash as license_plate_number,
+  c.license_plate_state,
+  c.license_plate_type,
+  c.zipcode,
+  c.violation_code,
+  c.violation_description,
+  c.unit,
+  c.unit_description,
+  c.vehicle_make,
+  c.fine_level1_amount,
+  c.fine_level2_amount,
+  c.current_amount_due,
+  c.total_payments,
+  c.ticket_queue,
+  c.ticket_queue_date,
+  c.notice_level,
+  c.notice_number,
+  c.dismissal_reason,
+  c.officer,
+  c.year,
+  c.month,
+  c.hour
+from cameras c
+
