@@ -1,7 +1,6 @@
 CREATE TABLE public.parking (
   ticket_number bigint primary key,
   issue_date timestamp without time zone,
-  issue_date timestamp without time zone,
   violation_location character varying,
   license_plate_number character varying,
   license_plate_state character varying,
