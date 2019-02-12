@@ -12,7 +12,7 @@ DATADIRS = analysis cameras geodata parking processed
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo census parking imports transforms indexes views
+all: bootstrap geo census parking cameras imports transforms indexes views
 
 bootstrap : create_db tables schema
 geo: load_geocodes geojson_tables shp_tables
@@ -24,7 +24,6 @@ indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 imports : $(patsubst %, import_%, $(IMPORTS))
 transforms : $(patsubst %, transform_%, $(TRANSFORMS))
-appgeo : bootstrap load_geodata_wards2015
 
 parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(CAMERAYEARS))
@@ -171,16 +170,12 @@ data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.tx
 	python processors/clean_csv.py $^ > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
 
 
-data/processed/parking_tickets.csv :
-	$(psql) -c "\copy parking TO '$(CURDIR)/$@' with (delimiter ',', format csv, header);"
-
-
-data/processed/parking_tickets.zip : data/data_dictionary.txt data/unit_key.csv data/processed/parking_tickets.csv
+data/datastore/tickets.zip : data/data_dictionary.txt data/unit_key.csv data/exports/chicago_parking_tickets.csv data/exports/chicago_camera_tickets.csv
 	zip $@ $^
 
 
-upload_zip : data/processed/parking_tickets.zip
-	aws s3 cp $^ s3://data-publica/il_parking_tickets_20180822.zip
+upload_zip : data/datastore/tickets.zip
+	aws s3 cp $^ s3://data-publica/il_tickets_`git rev-parse HEAD | cut -c1-8`.zip
 
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
