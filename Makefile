@@ -1,6 +1,5 @@
 PARKINGYEARS = 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
-#PARKINGYEARS = 2018
-CAMERAYEARS = 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+CAMERAYEARS = 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
 DATATABLES = parking cameras
 CENSUSTABLES = acs_17_5yr_b03002
 IMPORTS = wardmeta
@@ -167,6 +166,11 @@ data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.tx
 	python processors/clean_csv.py $^ > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
 
+.PRECIOUS: data/processed/A50951_AUCM_Year_%_clean.csv
+data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt processors/salt.txt
+	python processors/clean_csv.py $^ > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
+
+
 data/processed/parking_tickets.csv :
 	$(psql) -c "\copy parking TO '$(CURDIR)/$@' with (delimiter ',', format csv, header);"
 
@@ -187,9 +191,9 @@ dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
 	touch $@
 
 
-dupes/cameras-%.csv : data/cameras/A50951_AUCM_Year_%.txt
+dupes/cameras-%.csv : data/processed/A50951_AUCM_Year_%_clean.csv
 	$(check_tmp_cameras_relation) || $(psql) -c "CREATE TABLE tmp.tmp_table_cameras_$* AS SELECT * FROM public.cameras WITH NO DATA;"
-	sed \$$d $< | $(psql) -c "\copy tmp.tmp_table_cameras_$* FROM STDIN with (delimiter '$$', format csv, header);"
+	sed \$$d $< | $(psql) -c "\copy tmp.tmp_table_cameras_$* FROM STDIN with (delimiter ',', format csv, header, force_null(penalty));"
 	$(psql) -c "INSERT INTO public.cameras SELECT * FROM tmp.tmp_table_cameras_$* ON CONFLICT DO NOTHING;"
 	$(psql) -c	"DROP TABLE tmp.tmp_table_cameras_$*;"
 	touch $@
