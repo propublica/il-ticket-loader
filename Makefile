@@ -28,6 +28,7 @@ transforms : $(patsubst %, transform_%, $(TRANSFORMS))
 parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(CAMERAYEARS))
 
+download: download_parking download_cameras
 download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
 download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
 
