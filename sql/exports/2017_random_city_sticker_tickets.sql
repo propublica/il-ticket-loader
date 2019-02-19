@@ -1,4 +1,4 @@
-select
+with alltickets as (select
   p.ticket_number,
   p.issue_date,
   p.violation_location,
@@ -37,4 +37,11 @@ left join
     p.address = g.address
 left join blocks b on
   g.geocoded_address = b.address
+where
+  p.year = 2017 and
+  (p.violation_code = '0964125' or p.violation_code = '0976170' or p.violation_code = '0964125B')
+)
 
+select * from alltickets
+order by random()
+limit 50000
