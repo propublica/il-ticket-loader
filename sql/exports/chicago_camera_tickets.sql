@@ -19,7 +19,7 @@ select
   c.ticket_queue_date,
   c.notice_level,
   c.notice_number,
-  c.dismissal_reason,
+  c.hearing_disposition,
   c.officer,
   c.year,
   c.month,

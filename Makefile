@@ -176,7 +176,7 @@ data/datastore/tickets.zip : data/data_dictionary.txt data/unit_key.csv data/exp
 
 
 upload_zip : data/datastore/tickets.zip
-	aws s3 cp --dryrun $^ s3://data-publica/il_tickets_`git rev-parse HEAD | cut -c1-8`.zip
+	aws s3 cp $^ s3://data-publica/il_tickets_`git rev-parse HEAD | cut -c1-8`.zip
 
 
 dupes/parking-%.csv : data/processed/A50951_PARK_Year_%_clean.csv
