@@ -1,6 +1,12 @@
 # Illinois Ticket Data Loader
 
-**Warning: This is currently for research and study purposes only. The code is not fully documented and it will not run without talking with ProPublica to gain access to the source data.**
+**Warning: This repository is currently for research and study purposes only. The code is not fully documented and it will not run without talking with ProPublica to gain access to the source data.**
+
+## Introduction
+
+Sisi: In 2-3 sentences, tell people that this was created for the Ticket Trap, and what the code in this repo does (extracts and loads Chicago ticket and parking data, link to the data dictionary below), and why we're open-sourcing it (for research purposes?).
+
+Please note again that this code is not fully documented and *will not run* without access to the source data. If you're interested in using this data and code for research, please jump to [Getting source data])(#Getting-source-data).
 
 ## Requirements
 
@@ -39,7 +45,9 @@ pipenv install
 
 ## Getting source data
 
-Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). Contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
+Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). TKTKExplain why/what the difference between these two datasets are. This is also an opportunity to direct some people to the data store, if that data fits their needs. 
+
+To recieve access to the source data used by the repo, contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
 
 If you have access to our S3 bucket, you can run:
 
