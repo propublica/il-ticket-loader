@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Sisi: In 2-3 sentences, tell people that this was created for the Ticket Trap, and what the code in this repo does (extracts and loads Chicago ticket and parking data, link to the data dictionary below), and why we're open-sourcing it (for research purposes?).
+This loader powers [The Ticket Trap](https://projects.propublica.org/chicago-tickets/) and the analysis and visualizations used throughout the [Driven Into Debt](https://www.propublica.org/series/driven-into-debt) series published by ProPublica Illinois. It cleans, loads, and analyzes Chicago parking and camera ticket data (see the [unofficial data dictionary](https://github.com/propublica/il-ticket-loader#data-dictionary below for more details) in a PostgreSQL database. We have open-sourced this codebase for those who want to study it, use the data themselves, or contribute improvements like compatibility with ProPublica's public ticket data release that we've haven't had time for.
 
 Please note again that this code is not fully documented and *will not run* without access to the source data. If you're interested in using this data and code for research, please jump to [Getting source data])(#Getting-source-data).
 
@@ -45,7 +45,7 @@ pipenv install
 
 ## Getting source data
 
-Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). TKTKExplain why/what the difference between these two datasets are. This is also an opportunity to direct some people to the data store, if that data fits their needs. 
+Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). The source data includes improperly quoted fields and a handful of duplicate rows that the loader accounts for. It also includes license plate numbers which we obscure in the public data release with a hashing function, and joins in geographic data that is handled via database relations in this case.
 
 To recieve access to the source data used by the repo, contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
 
