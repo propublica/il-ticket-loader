@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This loader powers [The Ticket Trap](https://projects.propublica.org/chicago-tickets/) and the analysis and visualizations used throughout the [Driven Into Debt](https://www.propublica.org/series/driven-into-debt) series published by ProPublica Illinois. It cleans, loads, and analyzes Chicago parking and camera ticket data (see the [unofficial data dictionary](https://github.com/propublica/il-ticket-loader#data-dictionary below for more details) in a PostgreSQL database. We have open-sourced this codebase for those who want to study it, use the data themselves, or contribute improvements like compatibility with ProPublica's public ticket data release that we've haven't had time for.
+This loader powers [The Ticket Trap](https://projects.propublica.org/chicago-tickets/) and the analysis and visualizations used throughout the [Driven Into Debt](https://www.propublica.org/series/driven-into-debt) series published by ProPublica Illinois. It cleans, loads, and analyzes Chicago parking and camera ticket data (see the [unofficial data dictionary](https://github.com/propublica/il-ticket-loader#data-dictionary) below for more details) in a PostgreSQL database. We have open-sourced this codebase for those who want to study it, use the data themselves, or contribute improvements like compatibility with ProPublica's public ticket data release that we've haven't had time for.
 
 Please note again that this code is not fully documented and *will not run* without access to the source data. If you're interested in using this data and code for research, please jump to [Getting source data])(#Getting-source-data).
 
