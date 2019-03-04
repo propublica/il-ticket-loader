@@ -40,7 +40,7 @@ This variables are a bit repetitive. Of note is `ILTICKETS_DB_STRING`, which is 
 You'll also need the Python libraries defined in `requirements.txt`. We use [Pipenv](https://pipenv.readthedocs.io/) to manage our environment. If you do too, just run:
 
 ```
-pipenv install
+pipenv sync
 ```
 
 ## Getting source data
