@@ -1,6 +1,12 @@
 # Illinois Ticket Data Loader
 
-**Warning: This is currently for research and study purposes only. The code is not fully documented and it will not run without talking with ProPublica to gain access to the source data.**
+**Warning: This repository is currently for research and study purposes only. The code is not fully documented and it will not run without talking with ProPublica to gain access to the source data.**
+
+## Introduction
+
+This loader powers [The Ticket Trap](https://projects.propublica.org/chicago-tickets/) and the analysis and visualizations used throughout the [Driven Into Debt](https://www.propublica.org/series/driven-into-debt) series published by ProPublica Illinois. It cleans, loads, and analyzes Chicago parking and camera ticket data (see the [unofficial data dictionary](https://github.com/propublica/il-ticket-loader#data-dictionary) below for more details) in a PostgreSQL database. We have open-sourced this codebase for those who want to study it, use the data themselves, or contribute improvements like compatibility with ProPublica's public ticket data release that we've haven't had time for.
+
+Please note again that this code is not fully documented and *will not run* without access to the source data. If you're interested in using this data and code for research, please jump to [Getting source data](https://github.com/propublica/il-ticket-loader#Getting-source-data).
 
 ## Requirements
 
@@ -34,12 +40,14 @@ This variables are a bit repetitive. Of note is `ILTICKETS_DB_STRING`, which is 
 You'll also need the Python libraries defined in `requirements.txt`. We use [Pipenv](https://pipenv.readthedocs.io/) to manage our environment. If you do too, just run:
 
 ```
-pipenv install
+pipenv sync
 ```
 
 ## Getting source data
 
-Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). Contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
+Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). The source data includes improperly quoted fields and a handful of duplicate rows that the loader accounts for. It also includes license plate numbers which we obscure in the public data release with a hashing function, and joins in geographic data that is handled via database relations in this case.
+
+To recieve access to the source data used by the repo, contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
 
 If you have access to our S3 bucket, you can run:
 
