@@ -159,6 +159,7 @@ def clean(data_filename, salt_filename):
                 row = add_month(row)
                 row = add_hour(row)
                 row = add_penalty(row)
+                row[3] = 'XXXXXX'
                 writer.writerow(row)
             except IndexError:
                 print(row, file=sys.stderr)
