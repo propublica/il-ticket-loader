@@ -16,7 +16,18 @@ Please note again that this code is not fully documented and *will not run* with
 * PostgreSQL + PostGIS
 * ProPublica Illinois S3 bucket credentials or copies of the source data
 
-Run `pip install -r requirements.txt` to install Python dependencies.
+
+## Installation
+
+This project uses [Pipenv](https://pipenv.readthedocs.io/) to manage dependencies. 
+
+To install Python dependencies, run:
+
+```
+pipenv sync
+```
+
+You _must_ have Pipenv to use the Makefile or override the `EXEC_ENV` variable when running `make` with whatever command needs to be run before calling Python to activate your environment.
 
 ## Configuration and setup
 
@@ -36,12 +47,6 @@ export ILTICKETS_DB_STRING="dbname=iltickets"
 ```
 
 This variables are a bit repetitive. Of note is `ILTICKETS_DB_STRING`, which is the [`ogr2ogr`](http://www.gdal.org/drv_pg.html) connection string.
-
-You'll also need the Python libraries defined in `requirements.txt`. We use [Pipenv](https://pipenv.readthedocs.io/) to manage our environment. If you do too, just run:
-
-```
-pipenv sync
-```
 
 ## Getting source data
 

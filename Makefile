@@ -8,6 +8,7 @@ SHPTABLES = tl_2016_17_bg tl_2016_17_tabblock10 tl_2017_us_state
 TRANSFORMS = ohare
 VIEWS = blocks wards warddemographics wardsyearly wardsyearlytotals wardstotals wardstotals5yr wardscommunityareas blocksyearly blockstotals geoblocks violations wardsviolations5yr wardstop5violations5yr citywideyearly
 DATADIRS = analysis cameras geodata parking processed
+EXEC_ENV = pipenv run
 
 .PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
 .INTERMEDIATE: processors/salt.txt
@@ -158,17 +159,17 @@ load_census_% : data/census/%.csv
 
 .PRECIOUS: processors/salt.txt
 processors/salt.txt :
-	python processors/create_salt.py
+	$(EXEC_ENV) python processors/create_salt.py
 
 
 .PRECIOUS: data/processed/A50951_PARK_Year_%_clean.csv
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt processors/salt.txt
-	python processors/clean_csv.py $^ > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
+	$(EXEC_ENV) python processors/clean_csv.py $^ > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
 
 .PRECIOUS: data/processed/A50951_AUCM_Year_%_clean.csv
 data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt processors/salt.txt
-	python processors/clean_csv.py $^ > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
+	$(EXEC_ENV) python processors/clean_csv.py $^ > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
 
 
 data/datastore/tickets.zip : data/data_dictionary.txt data/unit_key.csv data/exports/chicago_parking_tickets.csv data/exports/chicago_camera_tickets.csv
