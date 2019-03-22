@@ -10,6 +10,7 @@ pycrypto = "*"
 psycopg2-binary = "*"
 scrapy = "*"
 records = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"
