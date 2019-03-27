@@ -10,3 +10,4 @@ processors/salt.txt
 env/mapbox.sh
 bulletproof/*.csv
 .ipynb_checkpoints/
+data-export/

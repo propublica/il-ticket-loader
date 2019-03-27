@@ -104,15 +104,31 @@ drop_view_% :
 
 
 data/geodata/communityareas.json :
-	curl "https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON" > $@
+	curl -o $@ "https://data.cityofchicago.org/api/geospatial/cauq-8yn6?method=export&format=GeoJSON"
 
 
 data/geodata/wards2015.json :
-	curl "https://data.cityofchicago.org/api/geospatial/sp34-6z76?method=export&format=GeoJSON" > $@
+	curl -o $@ "https://data.cityofchicago.org/api/geospatial/sp34-6z76?method=export&format=GeoJSON"
 
 
 data/metadata/wardmeta.csv :
-	curl "https://data.cityofchicago.org/api/views/htai-wnw4/rows.csv?accessType=DOWNLOAD" > $@
+	curl -o $@ "https://data.cityofchicago.org/api/views/htai-wnw4/rows.csv?accessType=DOWNLOAD"
+
+
+data/geodata/tl_2016_17_tabblock10.zip :
+	curl -o $@ https://www2.census.gov/geo/tiger/TIGER2016/TABBLOCK/tl_2016_17_tabblock10.zip
+
+
+data/geodata/tl_2016_17_bg.zip :
+	curl -o $@ https://www2.census.gov/geo/tiger/TIGER2016/BG/tl_2016_17_bg.zip
+
+
+data/geodata/tl_2017_us_state.zip :
+	curl -o $@ https://www2.census.gov/geo/tiger/TIGER2017/STATE/tl_2017_us_state.zip
+
+
+data/geodata/%.shp : data/geodata/%.zip
+	unzip -o $< -d $(@D)
 
 
 load_geojson_% : data/geodata/%.json
