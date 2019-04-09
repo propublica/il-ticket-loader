@@ -35,9 +35,11 @@ download: download_parking download_cameras
 
 download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
 .INTERMEDIATE: $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
+.PRECIOUS: $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
 
 download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
 .INTERMEDIATE: $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
+.PRECIOUS: $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
 
 
 zip_n_ship : processors/salt.txt upload_zip
