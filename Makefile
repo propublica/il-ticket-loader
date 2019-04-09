@@ -10,10 +10,10 @@ VIEWS = blocks wards warddemographics wardsyearly wardsyearlytotals wardstotals 
 DATADIRS = analysis cameras geodata parking processed
 EXEC_ENV = pipenv run
 
-.PHONY: all clean bootstrap tables indexes views analysis parking cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
+.PHONY: all clean bootstrap tables indexes views process_parking parking process_cameras cameras load download_parking download_cameras zip_n_ship sync geojson_tables shp_tables
 .INTERMEDIATE: processors/salt.txt
 
-all: bootstrap geo census parking cameras imports transforms indexes views
+all: bootstrap geo census process_parking parking process_cameras cameras imports transforms indexes views
 
 bootstrap : create_db tables schema
 geo: load_geocodes geojson_tables shp_tables
@@ -25,13 +25,20 @@ indexes : $(patsubst %, index_%, $(DATATABLES))
 views : $(patsubst %, view_%, $(VIEWS))
 imports : $(patsubst %, import_%, $(IMPORTS))
 transforms : $(patsubst %, transform_%, $(TRANSFORMS))
+process_parking : $(patsubst %, data/processed/A50951_PARK_Year_%_clean.csv, $(PARKINGYEARS))
+process_cameras : $(patsubst %, data/processed/A50951_AUCM_Year_%_clean.csv, $(CAMERAYEARS))
 
 parking : $(patsubst %, dupes/parking-%.csv, $(PARKINGYEARS))
 cameras : $(patsubst %, dupes/cameras-%.csv, $(CAMERAYEARS))
 
 download: download_parking download_cameras
+
 download_parking : $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
+.INTERMEDIATE: $(patsubst %, data/parking/A50951_PARK_Year_%.txt, $(PARKINGYEARS))
+
 download_cameras : $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
+.INTERMEDIATE: $(patsubst %, data/cameras/A50951_AUCM_Year_%.txt, $(CAMERAYEARS))
+
 
 zip_n_ship : processors/salt.txt upload_zip
 
@@ -178,12 +185,10 @@ processors/salt.txt :
 	$(EXEC_ENV) python processors/create_salt.py
 
 
-.PRECIOUS: data/processed/A50951_PARK_Year_%_clean.csv
 data/processed/A50951_PARK_Year_%_clean.csv : data/parking/A50951_PARK_Year_%.txt processors/salt.txt
 	$(EXEC_ENV) python processors/clean_csv.py $^ > data/processed/A50951_PARK_Year_$*_clean.csv 2> data/processed/A50951_PARK_Year_$*_err.txt
 
 
-.PRECIOUS: data/processed/A50951_AUCM_Year_%_clean.csv
 data/processed/A50951_AUCM_Year_%_clean.csv : data/cameras/A50951_AUCM_Year_%.txt processors/salt.txt
 	$(EXEC_ENV) python processors/clean_csv.py $^ > data/processed/A50951_AUCM_Year_$*_clean.csv 2> data/processed/A50951_AUCM_Year_$*_err.txt
 
