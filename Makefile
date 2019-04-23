@@ -243,10 +243,6 @@ data/exports/%.csv : sql/exports/%.sql
 	$(psql) -c "\copy ($(shell cat $<)) to '$(CURDIR)/$@' with (format csv, header);"
 
 
-import_% : sql/imports/%.csv
-	$(psql) -c "\copy $* from '$(CURDIR)/$@' with (format csv, header);"
-
-
 test_data :
 	$(psql) -c "\copy (SELECT (x).key as metric, (x).value \
 		FROM \
