@@ -1,6 +1,5 @@
 #! /bin/bash
-docker run -p 8080:8080 \
-       hasura/graphql-engine:latest \
-       graphql-engine \
-       --database-url ${ILTICKETS_DB_URL} \
-       serve --enable-console
+docker run -d -p 8080:8080 \
+       -e HASURA_GRAPHQL_DATABASE_URL=postgres://host.docker.internal/iltickets \
+       -e HASURA_GRAPHQL_ENABLE_CONSOLE=true \
+       hasura/graphql-engine:v1.0.0-alpha44
