@@ -52,7 +52,7 @@ This variables are a bit repetitive. Of note is `ILTICKETS_DB_STRING`, which is 
 
 Currently, you must have access to the source data for this project, which is different from what's available in the [ProPublica Data Store](https://www.propublica.org/datastore/dataset/chicago-parking-ticket-data). The source data includes improperly quoted fields and a handful of duplicate rows that the loader accounts for. It also includes license plate numbers which we obscure in the public data release with a hashing function, and joins in geographic data that is handled via database relations in this case.
 
-To recieve access to the source data used by the repo, contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
+To receive access to the source data used by the repo, contact ProPublica by [creating an issue](https://github.com/propublica/il-ticket-loader/issues/new) in this repository and we'll be in touch.
 
 If you have access to our S3 bucket, you can run:
 
@@ -61,6 +61,10 @@ make download
 ```
 
 If you have talked with us, follow our instructions to unzip the data files in the `data` directory.
+
+### A note about the "ward meta" source data
+
+The `data/imports/wardmeta.csv` file is a manual export of this [Google sheet](https://docs.google.com/spreadsheets/d/1RBfZat2aiNm7Tik9bfHTXwoBrZkH0LLz1MTFCEvJBDY/edit#gid=465481261). A better solution would be to use `rclone`, but I wasn't aware of it until too late in this project too implement it. An MIT-licensed implementation could be ported from [this implementation](https://github.com/eads/desapariciones/blob/master/Makefile#L213-L214).
 
 
 ## Running
