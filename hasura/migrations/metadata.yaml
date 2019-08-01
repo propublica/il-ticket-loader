@@ -1,0 +1,120 @@
+allowlist: []
+functions: []
+query_collections: []
+query_templates: []
+remote_schemas: []
+tables:
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: warddemographics
+  update_permissions: []
+- array_relationships:
+  - comment: null
+    name: wardTopFiveViolations
+    using:
+      manual_configuration:
+        column_mapping:
+          ward: ward
+        remote_table: wardstop5violations5yr
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships:
+  - comment: null
+    name: wardTotals
+    using:
+      manual_configuration:
+        column_mapping:
+          ward: ward
+        remote_table: wardstotals
+  - comment: null
+    name: wardDemographics
+    using:
+      manual_configuration:
+        column_mapping:
+          ward: ward
+        remote_table: warddemographics
+  - comment: null
+    name: wardMeta
+    using:
+      manual_configuration:
+        column_mapping:
+          ward: ward
+        remote_table: wardmeta
+  - comment: null
+    name: wardTotals5yr
+    using:
+      manual_configuration:
+        column_mapping:
+          ward: ward
+        remote_table: wardstotals5yr
+  select_permissions: []
+  table: wards
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: citywideyearly
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: wardstotals
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: wardmeta
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: wardstotals5yr
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships:
+  - comment: null
+    name: editedViolationDescription
+    using:
+      manual_configuration:
+        column_mapping:
+          violation_description: violation_description
+        remote_table: citation_names
+  select_permissions: []
+  table: wardstop5violations5yr
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: violations
+  update_permissions: []
+- array_relationships: []
+  delete_permissions: []
+  event_triggers: []
+  insert_permissions: []
+  object_relationships: []
+  select_permissions: []
+  table: citation_names
+  update_permissions: []

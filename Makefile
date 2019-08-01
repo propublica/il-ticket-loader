@@ -253,3 +253,22 @@ test_data :
 
 clean_% :
 	rm -Rf data/$*/*
+
+
+#################################################################################
+# Hasura
+##################################################################################
+
+## Export Hasura metadata
+hasura/migrations/metadata.yaml:
+	cd hasura; hasura metadata export
+
+.PHONY: hasura/apply
+## Apply Hasura metadata
+hasura/apply: hasura/migrations/metadata.yaml
+	cd hasura; hasura metadata apply
+
+.PHONY: hasura/reset
+## Apply Hasura metadata
+hasura/reset:
+	cd hasura; hasura metadata reset
