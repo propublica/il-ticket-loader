@@ -1,51 +1,52 @@
-﻿WARD,ALDERMAN,ADDRESS,CITY,STATE,ZIPCODE,WARD PHONE,EMAIL
-1, Proco Joe Moreno,2740 West North Avenue,Chicago,IL,60647,(773) 278-0101,Ward01@cityofchicago.org
-2, Brian Hopkins,1400 North Ashland Avenue,Chicago,IL,60622,(312) 643-2299,Ward02@cityofchicago.org
-3, Pat Dowell,5046 South State Street,Chicago,IL,60609,(773) 373-9273,Ward03@cityofchicago.org
-4, Sophia D. King,"435 East 35th Street, 1st Floor",Chicago,IL,60616,(773) 536-8103,Ward04@cityofchicago.org
-5, Leslie A. Hairston,2325 East 71st Street,Chicago,IL,60649,(773) 324-5555,Ward05@cityofchicago.org
-6, Roderick T. Sawyer,700 East 79th Street,Chicago,IL,60619,(773) 635-0006,Ward06@cityofchicago.org
-7, Gregory I. Mitchell,2249 East 95th Street,Chicago,IL,60617,(773) 731-7777,7th@gregmitchell7thward.org
-8, Michelle A. Harris,8539 South Cottage Grove Avenue,Chicago,IL,60619,(773) 874-3300,Ward08@cityofchicago.org
-9, Anthony Beale,34 East 112th Place,Chicago,IL,60628,(773) 785-1100,Ward09@cityofchicago.org
-10, Susan Sadlowski Garza,"10500 South Ewing Avenue, 1st Floor",Chicago,IL,60617,(773) 768-8138,Ward10@cityofchicago.org
-11, Patrick D. Thompson,3659 South Halsted Street,Chicago,IL,60609,(773) 254-6677,Ward11@cityofchicago.org
-12, George A. Cardenas,3476 South Archer Avenue,Chicago,IL,60608,(773) 523-8250,Ward12@cityofchicago.org
-13, Marty Quinn,6500 South Pulaski Road,Chicago,IL,60629,(773) 581-8000,Ward13@cityofchicago.org
-14, Edward M. Burke,2650 West 51st Street,Chicago,IL,60632,(773) 471-1414,Ward14@cityofchicago.org
-15, Raymond A. Lopez,6412 South Ashland Avenue,Chicago,IL,60636,(773) 306-0837,Ward15@cityofchicago.org
-16, Toni Foulkes,1504 West 63rd Street,Chicago,IL,60636,(773) 863-0220,Ward16@cityofchicago.org
-17, David H. Moore,1344 West 79th Street,Chicago,IL,60620,(773) 783-3672,Ward17@cityofchicago.org
-18, Derrick G. Curtis,8359 South Pulaski Road,Chicago,IL,60652,(773) 284-5057,Ward18@cityofchicago.org
-19, Matthew J. O'Shea,10400 South Western Avenue,Chicago,IL,60643,(773) 238-8766,Ward19@cityofchicago.org
-20, Willie Cochran,6357 South Cottage Grove Avenue,Chicago,IL,60637,(773) 955-5610,Ward20@cityofchicago.org
-21," Howard Brookins, Jr.","9011 South Ashland Avenue, Unit B",Chicago,IL,60620,(773) 881-9300,Ward21@cityofchicago.org
-22, Ricardo Muñoz,2500 South St. Louis Avenue,Chicago,IL,60623,(773) 762-1771,Ward22@cityofchicago.org
-23, Silvana Tabares,6247 South Archer Avenue,Chicago,IL,60638,(773) 582-4444,Ward23@cityofchicago.org
-24,"Michael Scott, Jr.",1158 South Keeler Street,Chicago,IL,60624,(773) 533-2400,Ward24@cityofchicago.org
-25, Daniel Solis,1645 South Blue Island Avenue,Chicago,IL,60608,(773) 523-4100,Ward25@cityofchicago.org
-26, Roberto Maldonado,2511 West Division Street,Chicago,IL,60622,(773) 395-0143,Ward26@cityofchicago.org
-27," Walter Burnett, Jr.",4 North Western Avenue,Chicago,IL,60612,(312) 432-1995,Ward27@cityofchicago.org
-28, Jason C. Ervin,"2622 West Jackson Boulevard, Suite 200-A",Chicago,IL,60612,(773) 533-0900,Ward28@cityofchicago.org
-29, Chris Taliaferro,6272 West North Avenue,Chicago,IL,60639,(773) 237-6460,Ward29@cityofchicago.org
-30, Ariel Reboyras,3559 North Milwaukee Avenue,Chicago,IL,60641,(773) 794-3095,Ward30@cityofchicago.org
-31, Milagros Santiago,2521 North Pulaski Road,Chicago,IL,60639,(773) 278-0031,Ward31@cityofchicago.org
-32, Scott Waguespack,2657 North Clybourn Avenue,Chicago,IL,60614,(773) 248-1330,Ward32@cityofchicago.org
-33, Deborah Mell,3001 West Irving Park Road,Chicago,IL,60618,(773) 478-8040,Ward33@cityofchicago.org
-34, Carrie M. Austin,507 West 111th Street,Chicago,IL,60628,(773) 928-6961,Ward34@cityofchicago.org
-35, Carlos Ramirez-Rosa,2710 North Sawyer Avenue,Chicago,IL,60647,(773) 887-3772,Ward35@cityofchicago.org
-36, Gilbert Villegas,6934 West Diversey Avenue,Chciago,IL,60607,(773) 745-4636,Ward36@cityofchicago.org
-37, Emma Mitts,4924 West Chicago Avenue,Chicago,IL,60651,(773) 379-0960,Ward37@cityofchicago.org
-38, Nicholas Sposato,3821 North Harlem Avenue,Chicago,IL,60634,(773) 283-3838,Ward38@cityofchicago.org
-39, Margaret Laurino,4404 West Lawrence Avenue,Chicago,IL,60630,(773) 736-5594,Ward39@cityofchicago.org
-40, Patrick O'Connor,5850 North Lincoln Avenue,Chicago,IL,60659,(773) 769-1140,Ward40@cityofchicago.org
-41, Anthony V. Napolitano,7442 North Harlem Avenue,Chicago,IL,60631,(773) 631-2241,Ward41@cityofchicago.org
-42, Brendan Reilly,"325 West Huron Street, Suite 510",Chicago,IL,60654,(312) 642-4242,Ward42@cityofchicago.org
-43, Michele Smith,2523 North Halsted Street,Chicago,IL,60614,(773) 348-9500,yourvoice@ward43.org
-44, Thomas Tunney,3223 North Sheffield Avenue,Chicago,IL,60657,(773) 525-6034,Ward44@cityofchicago.org
-45, John Arena,4754 North Milwaukee Avenue,Chicago,IL,60630,(773) 286-4545,Ward45@cityofchicago.org
-46, James Cappleman,4544 North Broadway Avenue,Chicago,IL,60640,(773) 878-4646,info@james46.org
-47, Ameya Pawar,4243 North Lincoln Avenue,Chicago,IL,60618,(773) 868-4747,info@chicago47.org
-48, Harry Osterman,5533 North Broadway Avenue,Chicago,IL,60640,(773) 784-5277,Ward48@cityofchicago.org
-49, Joseph Moore,7356 North Greenview Avenue,Chicago,IL,60626,(773) 338-5796,Ward49@cityofchicago.org
-50, Debra L. Silverstein,"2949 West Devon Avenue, Suite A",Chicago,IL,60659,(773) 262-1050,Ward50@cityofchicago.org
+firstname,lastname,alderman,ward,ward_phone,website_url,email,cq,notes
+Daniel,La Spata,Daniel La Spata,1,(872) 206-2685,https://daniellaspata.com/,info@the1stward.com,DC + DE,"The ward website is under construction, but campaign website has constitutent info in the interim. New web domain will soon become: https://the1stward.com; DE confirmed this is still case July 29, 2019"
+Brian,Hopkins,Brian Hopkins,2,(312) 643-2299,https://www.aldermanhopkins.com/,ward02@cityofchicago.org,DE,
+Pat,Dowell,Pat Dowell,3,(773) 373-9273,http://www.ward03chicago.com,ward03@cityofchicago.org,DE,
+Sophia D.,King,Sophia D. King,4,(773) 536-8103,http://www.aldsophiaking.com,ward04@cityofchicago.org,DE,
+Leslie A.,Hairston,Leslie A. Hairston,5,(773) 324-5555,http://leslieahairston.com/,ward05@cityofchicago.org,DE,Email confirmed via voicemail greeting; did not speak to anyone
+Roderick T.,Sawyer,Roderick T. Sawyer,6,(773) 635-0006,http://www.6ward.com,ward06@cityofchicago.org,DE,
+Gregory I.,Mitchell,Gregory I. Mitchell,7,(773) 731-7777,http://www.gregmitchell7thward.org/,alderman@gregmitchell7thward.org,DE,"Called, got into a phone menu feedback loop; this info is what is stated on the website"
+Michelle A.,Harris,Michelle A. Harris,8,(773) 874-3300,http://www.Aldermanmichelleharris.net,michelleharris8@gmail.com,DE,
+Anthony,Beale,Anthony Beale,9,(773) 785-1100,http://www.Ward09.com,Ward09@cityofchicago.org,DE,
+Susan,Sadlowski Garza,Susan Sadlowski Garza,10,(773) 768-8138,https://www.aldssg.com/,ward10@cityofchicago.org,DE,
+Patrick D.,Thompson,Patrick D. Thompson,11,(773) 254-6677,http://www.ward11.org,ward11@cityofchicago.org,DE,
+George A.,Cardenas,George A. Cardenas,12,(773) 523-8250,http://www.12thwardchicago.com/,ward12@cityofchicago.org,DE,
+Marty,Quinn,Marty Quinn,13,(773) 581-8000,http://www.madigan-quinn.com/,ward13@cityofchicago.org,DE,
+Edward M.,Burke,Edward M. Burke,14,(773) 471-1414,http://www.committeeonfinance.org/,ward14@cityofchicago.org,DE,No website; http://www.committeeonfinance.org/ is the closest but is not really a ward website
+Raymond A.,Lopez,Raymond A. Lopez,15,(773) 306-0837,http://www.the15thward.org,info@the15thward.org,DE,
+Stephanie D.,Coleman,Stephanie D. Coleman,16,(773) 306-1981,http://www.16thward.org,info@16thward.org,DC,
+David H.,Moore,David H. Moore,17,(773) 783-3672,http://www.17thwardalderman.com/17thward/,alderman@17ward.com,DE,
+Derrick G.,Curtis,Derrick G. Curtis,18,(773) 284-5057,https://www.facebook.com/aldermancurtis18ward/,alderman18derrickcurtis@gmail.com,DC,
+Matthew J.,O'Shea,Matthew J. O'Shea,19,(773) 238-8766,http://the19thward.com/,mattoshea@the19thward.com,,
+Jeanette B.,Taylor,Jeanette B. Taylor,20,(773) 966-5336,,jeanette.taylor@cityofchicago.org,DE,
+Howard,"Brookins, Jr.","Howard Brookins, Jr.",21,(773) 881-9300,http://www.21Chicago.com,ward21@cityofchicago.org,DE,
+Michael D.,Rodriguez,Michael D. Rodriguez,22,"(773) 762-1771
+",,ward22@cityofchicago.org,DE,
+Silvana,Tabares,Silvana Tabares,23,(773) 582-4444,,ward23@cityofchicago.org,DE,
+Michael,"Scott, Jr.","Michael Scott, Jr.",24,(773) 533-2400,http://www.aldermanscott.com,alderman24@aldermanscott.com,DE,
+Byron,Sigcho-Lopez,Byron Sigcho-Lopez,25,(773) 523-4100,https://www.25thward.org/,ward25@cityofchicago.org,DE,inquiries@25thward.org
+Roberto,Maldonado,Roberto Maldonado,26,(773) 395-0143,http://robertomaldonado.com,ward26@cityofchicago.org,DE,
+Walter,"Burnett, Jr.","Walter Burnett, Jr.",27,(312) 432-1995,http://aldermanburnett.com/,tamara@aldermanburnett.com,DE,
+Jason C.,Ervin,Jason C. Ervin,28,(773) 533-0900,http://www.AldermanErvin.com/,info@aldermanervin.com,DE,
+Chris,Taliaferro,Chris Taliaferro,29,(773) 237-6460,http://www.aldtaliaferro.com,ward29@cityofchicago.org,DE,
+Ariel,Reboyras,Ariel Reboyras,30,(773) 794-3095,https://www.30thwardchicago.com/,ward30@cityofchicago.org,DE,
+Felix,"Cardona, Jr.","Felix Cardona, Jr.",31,(773) 703-7357,https://www.facebook.com/felixcardona2019/,ward31@cityofchicago.org,DE,"Called the number, mailbox full. This is a new operation so might be as good as it gets for now."
+Scott,Waguespack,Scott Waguespack,32,(773) 248-1330,http://www.ward32.org,info@ward32.org,DE,
+Rossana,Rodriguez Sanchez,Rossana Rodriguez Sanchez,33,(773) 840-7880,http://33rdward.org,info@33rdward.org,DE,
+Carrie M.,Austin,Carrie M. Austin,34,(773) 928-6961,http://ward34.com,terri.marsh@cityofchicago.org,DE,
+Carlos,Ramirez-Rosa,Carlos Ramirez-Rosa,35,(773) 887-3772,http://www.aldermancarlosrosa.org,ward35@cityofchicago.org,DE,"Got voicemail, but website confirms most of this"
+Gilbert,Villegas,Gilbert Villegas,36,(773) 745-4636,http://www.36thward.org,ward36@cityofchicago.org,DE,
+Emma,Mitts,Emma Mitts,37,(773) 379-0960,https://em-37.com/,ward37@cityofchicago.org,DE,
+Nicholas,Sposato,Nicholas Sposato,38,(773) 283-3838,http://aldermansposato.com/,ward38@cityofchicago.org,DE,
+Samantha,Nugent,Samantha Nugent,39,(773) 538-3097,https://samanthanugent39.com/,Info@samanthanugent39.com,DE,"Did not talk on phone, but website confirms this and number was correct voice mail boxx"
+Andre,"Vasquez, Jr.","Andre Vasquez, Jr.",40,(773) 654-1867,https://40thward.org/,info@40thward.org,DE,
+Anthony V.,Napolitano,Anthony V. Napolitano,41,(773) 631-2241,http://www.chicago41.com,ward41@cityofchicago.org,DE,
+Brendan,Reilly,Brendan Reilly,42,(312) 744-3062,http://www.ward42chicago.com/,office@ward42chicago.com,DE,
+Michele,Smith,Michele Smith,43,(773) 348-9500,http://www.ward43.org/,yourvoice@ward43.org,DE,
+Thomas,Tunney,Thomas Tunney,44,(773) 525-6034,http://44thward.org/,ward44@cityofchicago.org,DE,
+James M.,Gardiner,James M. Gardiner,45,(773) 853-0799,http://www.aldermangardiner.com,ward45@cityofchicago.org,DE,
+James,Cappleman,James Cappleman,46,(773) 878-4646,http://www.James46.org/,info@james46.org,DE,
+Matthew J.,Martin,Matthew J. Martin,47,(773) 868-4747,http://aldermanmartin.com,info@aldermanmartin.com,DE,May need to try FB?
+Harry,Osterman,Harry Osterman,48,(773) 784-5277,http://www.48thward.org,ward48@cityofchicago.org,DE,
+Maria E.,Hadden,Maria E. Hadden,49,(773) 338-5796,https://www.49thward.org/,office@49thward.org,DE,"Leslie Perkins, leslie@49thward.org "
+Debra L.,Silverstein,Debra L. Silverstein,50,(773) 262-1050,http://50thwardchicago.com,info@50thwardchicago.com,DE,"Did not reach on phone, website and voicemail message confirm "
